@@ -20,6 +20,7 @@ import {
   SpaceProps,
   Tag,
 } from '@chakra-ui/react';
+import { ethers } from 'ethers';
 import Layout from '../components/Layouts/Layout';
 import ProjectCard from '../components/cards/projectCard';
 
@@ -47,20 +48,11 @@ interface BlogAuthorProps {
 	name: string;
 }
 
-export const BlogAuthor: React.FC<BlogAuthorProps> = (props) => {
-	return (
-		<HStack marginTop='4' spacing='2' display='flex' alignItems='center'>
-			<Text>By</Text>
-			<Text>—</Text>
-			<Text fontWeight='medium'>{props.name}</Text>
-			{/* <Text>{props.date.toLocaleDateString()}</Text> */}
-		</HStack>
-	);
-};
-
 export default function Home() {
   const imgSrc =
-		'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80';
+    'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80';
+  
+  
   return (
 		<>
 			<Layout />
@@ -75,24 +67,15 @@ export default function Home() {
 					</Text>
 				</VStack>
 			</Box>
-			<Box
-				py={5}
-				mt={10}
-				ml={3}
-				mr={3}
-				minH='300px'
-			>
+			<Box py={5} mt={10} ml={3} mr={3} minH='300px'>
 				<VStack spacing={2} textAlign='center'>
-					<Container maxW={'7xl'} centerContent>
-						<Heading as='h2'>
+					<Container maxW={'7xl'} >
+						<Text fontSize='2xl' color={'gray.500'} align='left'>
 							Latest projects
-						</Heading>
+						</Text>
 						<Divider marginTop='5' />
 						<Wrap spacing='30px' marginTop='5'>
-							<Flex
-								justify='space-evenly'
-								paddingBottom='5px'
-							>
+							<Flex justify='space-evenly' paddingBottom='5px'>
 								<WrapItem
 									width={{ base: '100%', sm: '45%', md: '45%', lg: '30%' }}
 								>

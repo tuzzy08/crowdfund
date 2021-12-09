@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import {
 	Box,
 	Flex,
@@ -11,11 +12,13 @@ import {
 	Popover,
 	PopoverTrigger,
   PopoverContent,
+  Tag,
   useColorMode,
 	useColorModeValue,
 	useBreakpointValue,
 	useDisclosure,
 } from '@chakra-ui/react';
+import { ethers } from 'ethers';
 import {
 	HamburgerIcon,
 	CloseIcon,
@@ -25,10 +28,77 @@ import {
 	SunIcon,
 } from '@chakra-ui/icons';
 
-export default function WithSubnavigation() {
+export default function Layout() {
   const { colorMode, toggleColorMode } = useColorMode();
-	const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onToggle } = useDisclosure();
+  const [connectedAccount, setconnectedAccount] = useState(null);
 
+  function UnconnectedWalletButton() {
+    return (
+			<Button
+				onClick={connectWallet}
+        display={{ base: 'none', md: 'inline-flex' }}
+				fontSize={'sm'}
+				fontWeight={600}
+				color={'white'}
+				bg={'pink.400'}
+				href={'#'}
+				_hover={{
+					bg: 'pink.300',
+				}}
+			>
+				Connect Wallet
+			</Button>
+		);
+  }
+  /**
+   * Check if wallet is connected!
+   */
+  async function checkIfWalletIsConnected() {
+		// Check if the browser has metamask or similar
+		const { ethereum } = window;
+
+		if (!ethereum) {
+			console.log('Please install Metamask');
+			return;
+		} else {
+			console.log('Access to ethereum is enabled');
+		}
+		// Get authorized account
+		const accounts = await ethereum.request({ method: 'eth_accounts' });
+		if (accounts.length !== 0) {
+			const account = accounts[0];
+			console.log('Found authorized account', account);
+		} else {
+			console.log('No authorized account found');
+		}
+	}
+
+  /**
+   * Connect a wallet
+   */
+  const connectWallet = async () => {
+    try {
+      const { ethereum } = window;
+      if (!ethereum) {
+        alert('Please install Metamask');
+        return;
+      }
+      // Request user to authorize wallet
+      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
+      if (accounts.length !== 0) {
+        const account = accounts[0];
+        setconnectedAccount(account);
+        console.log('connected account', account);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, []);
 	return (
 		<Box>
 			<Flex
@@ -79,20 +149,13 @@ export default function WithSubnavigation() {
 					<Button onClick={toggleColorMode}>
 						{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
 					</Button>
-					
-					<Button
-						display={{ base: 'none', md: 'inline-flex' }}
-						fontSize={'sm'}
-						fontWeight={600}
-						color={'white'}
-						bg={'pink.400'}
-						href={'#'}
-						_hover={{
-							bg: 'pink.300',
-						}}
-					>
-						Connect Wallet
-					</Button>
+          {connectedAccount ? (
+            <Tag size={'lg'} variant='solid' overflow='hidden' colorScheme='teal'>
+              {connectedAccount}
+            </Tag>
+					) : (
+						<UnconnectedWalletButton />
+					)}
 				</Stack>
 			</Flex>
 
