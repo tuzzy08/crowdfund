@@ -20,7 +20,7 @@ import {
   SpaceProps,
   Tag,
 } from '@chakra-ui/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import Layout from '../components/Layouts/Layout';
 import ProjectCard from '../components/cards/projectCard';
@@ -51,6 +51,7 @@ interface BlogAuthorProps {
 const contract_address = '0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0';
 
 export default function Home() {
+	const [projects, setProjects] = useState([]);
 	const fetchAllProjects = async () => {
 		try {
 			const { ethereum } = window;
@@ -62,6 +63,7 @@ export default function Home() {
 			const provider = new ethers.providers.Web3Provider(ethereum);
 			const contract = new ethers.Contract(contract_address, Crowdfunding.abi, provider);
 			const transaction = await contract.fetchAllProjects();
+			setProjects(transaction);
 			console.log(transaction);
 		} catch (error) {
 			throw error;
@@ -87,29 +89,17 @@ export default function Home() {
 			</Box>
 			<Box py={5} mt={10} ml={3} mr={3} minH='300px'>
 				<VStack spacing={2} textAlign='center'>
-					<Container maxW={'7xl'} >
+					<Container maxW={'7xl'}>
 						<Text fontSize='2xl' color={'gray.500'} align='left'>
 							Latest projects
 						</Text>
 						<Divider marginTop='5' />
 						<Wrap spacing='30px' marginTop='5'>
 							<Flex justify='space-evenly' paddingBottom='5px'>
-								<WrapItem
-									width={{ base: '100%', sm: '45%', md: '45%', lg: '30%' }}
-								>
-									<ProjectCard />
-								</WrapItem>
-
-								<WrapItem
-									width={{ base: '100%', sm: '45%', md: '45%', lg: '30%' }}
-								>
-									<ProjectCard />
-								</WrapItem>
-								<WrapItem
-									width={{ base: '100%', sm: '45%', md: '45%', lg: '30%' }}
-								>
-									<ProjectCard />
-								</WrapItem>
+								{projects &&
+									projects.map((project, index) => (
+										<ProjectCard projectID={project.projectID} key={ index } />
+									))}
 							</Flex>
 						</Wrap>
 					</Container>
