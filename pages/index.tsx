@@ -20,10 +20,11 @@ import {
   SpaceProps,
   Tag,
 } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { ethers } from 'ethers';
 import Layout from '../components/Layouts/Layout';
 import ProjectCard from '../components/cards/projectCard';
-
+import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 interface IBlogTags {
 	tags: Array<string>;
 	marginTop?: SpaceProps['marginTop'];
@@ -47,11 +48,28 @@ interface BlogAuthorProps {
 	date: Date;
 	name: string;
 }
+const contract_address = '0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0';
 
 export default function Home() {
-  const imgSrc =
-    'https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?ixlib=rb-1.2.1&ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&auto=format&fit=crop&w=800&q=80';
-  
+	const fetchAllProjects = async () => {
+		try {
+			const { ethereum } = window;
+			if (!ethereum) {
+				console.log('Please install metamask');
+				return;
+			}
+
+			const provider = new ethers.providers.Web3Provider(ethereum);
+			const contract = new ethers.Contract(contract_address, Crowdfunding.abi, provider);
+			const transaction = await contract.fetchAllProjects();
+			console.log(transaction);
+		} catch (error) {
+			throw error;
+		}
+	};
+	useEffect(() => {
+		fetchAllProjects();
+	});
   
   return (
 		<>

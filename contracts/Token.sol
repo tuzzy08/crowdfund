@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract Token is ERC20, Ownable {
     constructor () ERC20("CROWD TOKEN", "CTK"){
-        _mint(msg.sender, 500000);
+        _mint(msg.sender, 600000);
     }
 
     function mintTo(address to, uint256 amount) public onlyOwner {

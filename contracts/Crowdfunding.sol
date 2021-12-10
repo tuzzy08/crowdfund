@@ -45,8 +45,8 @@ contract Crowdfunding is Ownable {
         address paidBy
     );
 
-    constructor(Token crowdToken) payable {
-        _crowdToken = crowdToken;
+    constructor() payable {
+        _crowdToken = new Token();
     }
 
     function createProject(

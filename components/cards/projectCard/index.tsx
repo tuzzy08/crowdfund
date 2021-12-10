@@ -12,6 +12,10 @@ import {
 	Avatar,
 	useColorModeValue,
 } from '@chakra-ui/react';
+import { ethers } from 'ethers';
+
+import Crowdfunding from '../../../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
+const contractAddress = '0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0';
 
 interface IBlogTags {
 	tags: Array<string>;
@@ -37,6 +41,26 @@ const BlogTags: React.FC<IBlogTags> = (props) => {
 };
 
 export default function projectCard() {
+  const fundProject = async () => {
+    try {
+      const { ethereum } = window;
+      if (!ethereum) {
+        console.log('Please install Metamask');
+				return;
+			}
+			// Get blockchain provider
+			const provider = new ethers.providers.Web3Provider(ethereum);
+			// get authorized account to sign transactions
+			const signer = provider.getSigner();
+			// Fetch the contract from chain - Passing in contract address, contract_abi, provider
+			const contract = new ethers.Contract(contractAddress, Crowdfunding.abi, provider);
+			const transaction = await contract.fundProject(1);
+			// Wait for transaction to be mined
+			await transaction.wait();
+    } catch (error) {
+      
+    }
+  };
 	return (
 		<Center py={6}>
 			<Box
