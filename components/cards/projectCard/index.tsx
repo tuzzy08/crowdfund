@@ -57,7 +57,7 @@ export default function projectCard({ projectID }) {
 			const contract = new ethers.Contract(
 				contractAddress,
 				Crowdfunding.abi,
-				provider
+				signer
 			);
 			const transaction = await contract.fundProject(projectID);
 			// Wait for transaction to be mined

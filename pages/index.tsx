@@ -52,6 +52,21 @@ const contract_address = '0xA51c1fc2f0D1a1b8494Ed1FE312d7C3a78Ed91C0';
 
 export default function Home() {
 	const [projects, setProjects] = useState([]);
+	// Function to create new project
+	const createProject = async(title, desc, goal) => {
+		const { ethereum } = window;
+		if (ethereum) {
+			const provider = new ethers.providers.Web3Provider(ethereum);
+			const signer = provider.getSigner();
+			const contract = new ethers.Contract(
+				contract_address,
+				Crowdfunding.abi,
+				signer
+			);
+			const transaction = await contract.createProject(title, desc, goal);
+			await transaction.wait();
+		}
+	};
 	const fetchAllProjects = async () => {
 		try {
 			const { ethereum } = window;
