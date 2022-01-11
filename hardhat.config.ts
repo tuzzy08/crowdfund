@@ -1,5 +1,7 @@
-require('@nomiclabs/hardhat-waffle');
 require('dotenv').config();
+import '@typechain/hardhat';
+import '@nomiclabs/hardhat-ethers';
+import '@nomiclabs/hardhat-waffle';
 // require('@nomiclabs/hardhat-etherscan');
 
 // You need to export an object to set up your config
@@ -14,8 +16,12 @@ module.exports = {
 	// 	artifacts: './pages/artifacts',
 	// },
 	networks: {
-		rinkeby: {
+		kovan: {
 			url: process.env.PROD_ALCHEMY_KEY,
+			accounts: [process.env.PRIVATE_KEY],
+		},
+		matic: {
+			url: process.env.POLYGON_TESTNET,
 			accounts: [process.env.PRIVATE_KEY],
 		},
 	},

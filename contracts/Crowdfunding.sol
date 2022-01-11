@@ -4,17 +4,17 @@ pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 import "./Token.sol";
 
-contract Crowdfunding is Ownable {
+contract Crowdfunding is Ownable, ReentrancyGuard  {
     using Counters for Counters.Counter;
     Counters.Counter private _projectId;
     Counters.Counter private _projectsCompleted;
 
-    address private _owner;
-    Token private _crowdToken;
+    Token _crowdToken;
 
-    uint listingFee = 1000000000000000000;
+    uint _listingFee = 0.025 ether;
 
     struct Project {
         uint256 projectID;
@@ -48,17 +48,30 @@ contract Crowdfunding is Ownable {
     constructor() payable {
         _crowdToken = new Token();
     }
+    
+    function getTokenContractAddress() public view returns(address tokenContract) {
+        return address(_crowdToken);
+    }
+
+    function transferToken(address receiver, uint amount) private nonReentrant() returns(bool) {
+        _crowdToken.transfer(receiver, amount);
+        return true;
+    }
+    
+
+    function getListingFee() public view returns(uint) {
+        return _listingFee;
+    }
 
     function createProject(
         string memory title,
         string memory description, 
         uint projectGoal
         ) public payable {
-            require(msg.value == listingFee, "Amount provided not equal to listing fee");
+            require(msg.value == _listingFee, "Amount provided not equal to listing fee");
             _projectId.increment();
             uint256 projectID = _projectId.current();
             userIDtoProjectID[msg.sender] = projectID;
-
             projectIDtoProject[projectID] = Project(
                 projectID,
                 title,
@@ -82,6 +95,7 @@ contract Crowdfunding is Ownable {
     function fundProject(uint256 projectID) public payable returns (bool) {
         require(msg.value > 0, "You must fund an amount greater than zero");
         projectIDtoProject[projectID].balance += msg.value;
+        transferToken(msg.sender, 1000000000000000000);
         emit ProjectFunded(projectID, msg.value, msg.sender);
         return true;
     }

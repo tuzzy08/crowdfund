@@ -68,6 +68,7 @@ export default function Layout() {
 		const accounts = await ethereum.request({ method: 'eth_accounts' });
 		if (accounts.length !== 0) {
 			const account = accounts[0];
+			setconnectedAccount(account);
 			console.log('Found authorized account', account);
 		} else {
 			console.log('No authorized account found');
@@ -98,7 +99,7 @@ export default function Layout() {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-  }, []);
+  });
 	return (
 		<Box>
 			<Flex
@@ -150,7 +151,7 @@ export default function Layout() {
 						{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
 					</Button>
           {connectedAccount ? (
-            <Tag size={'lg'} variant='solid' overflow='hidden' colorScheme='teal'>
+            <Tag size={'sm'} variant='solid' overflow='hidden' colorScheme='teal'>
               {connectedAccount}
             </Tag>
 					) : (
