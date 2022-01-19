@@ -49,7 +49,7 @@ interface BlogAuthorProps {
 	date: Date;
 	name: string;
 }
-const contract_address = '0x8C91093Cef625ed1Ab15cDb12FB132f1Cb92c571';
+const contract_address = '0x8481cA60E21Cde418103BBBAc4ab05C21e97F010';
 
 export default function Home() {
 	const [projects, setProjects] = useState([]);
