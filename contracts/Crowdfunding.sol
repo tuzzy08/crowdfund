@@ -108,10 +108,13 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
             );
     }
 
-    function fundProject(uint256 projectID) public payable returns (bool) {
+    function fundProject(uint256 projectID) external payable returns (bool) {
         require(msg.value > 0, "You must fund an amount greater than zero");
+        // Update project balance
         projectIDtoProject[projectID].balance += msg.value;
+        // Transfer token to address
         transferToken(msg.sender, 1000000000000000000);
+        // Emit funding event
         emit ProjectFunded(projectID, msg.value, msg.sender);
         return true;
     }
@@ -133,12 +136,17 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         return availableProjects;
     }
 
-    function markProjectComplete(address payable projectOwner) public onlyOwner returns(bool) {
-        uint256 currentProjectID = userIDtoProjectID[projectOwner];
-        Project storage currentProject = projectIDtoProject[currentProjectID];
+    function markProjectComplete(uint projectID) public nonReentrant onlyOwner returns(bool) {
+        // Fetch the project using it's ID
+        Project storage currentProject = projectIDtoProject[projectID];
+        // Check that the project goal has been reached
         require(currentProject.projectGoal >= currentProject.balance, "Project funding goal hasn't been reached.");
-        projectOwner.transfer(currentProject.balance);
+        // Reset the project balance
+        currentProject.balance = 0;
+        // Mark project as complete        
         currentProject.isComplete = true;
+        // Transfer the project funds to the address of it's owner
+        currentProject.owner.transfer(currentProject.balance);
         return true;
     }
 
