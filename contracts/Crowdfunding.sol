@@ -24,6 +24,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         address payable owner;
         uint balance;
         bool isComplete;
+        bool isClosed;
     }
 
     mapping (address => uint256) userIDtoProjectID;
@@ -37,7 +38,8 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         uint projectGoal,
         address owner,
         uint balance,
-        bool isComplete
+        bool isComplete,
+        bool isClosed
     );
 
     event TokenTransferred (
@@ -95,6 +97,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
                 projectGoal,
                 payable (msg.sender),
                 0,
+                false,
                 false
             );
             emit ProjectCreated(
@@ -104,6 +107,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
                 projectGoal,
                 payable (msg.sender),
                 0,
+                false,
                 false
             );
     }
@@ -150,12 +154,16 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         return true;
     }
 
-    function closeProjectAndTransferBalance(uint256 projectID) public onlyOwner returns(bool) {
+    function closeProjectAndTransferBalance(uint256 projectID) public onlyOwner nonReentrant returns(bool) {
+        // Fetch the project using it's ID
         Project storage currentProject = projectIDtoProject[projectID];
-        if(currentProject.balance > 0) {
-            currentProject.owner.transfer(currentProject.balance);
-        }        
-        currentProject.isComplete = true;
+        // Check that contract has some balance
+        require(currentProject.balance > 0, 'Not enough funds for this transfer');
+        // Reset contract balance and mark as closed
+        currentProject.balance = 0;
+        currentProject.isClosed = true;
+        // Transfer balance to project owner's address
+        currentProject.owner.transfer(currentProject.balance);   
         return true;
     }
 
