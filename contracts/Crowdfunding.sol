@@ -28,6 +28,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
 
     mapping (address => uint256) userIDtoProjectID;
     mapping (uint256 => Project) projectIDtoProject;
+    mapping (address => uint) userTokenBalance;
 
     event ProjectCreated (
         uint256 projectID,
@@ -37,6 +38,12 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         address owner,
         uint balance,
         bool isComplete
+    );
+
+    event TokenTransferred (
+        address receiver,
+        uint amountTransferred,
+        uint userTokenBalance
     );
 
     event ProjectFunded (
@@ -53,8 +60,17 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         return address(_crowdToken);
     }
 
-    function transferToken(address receiver, uint amount) private nonReentrant() returns(bool) {
+    function transferToken(address receiver, uint amount) private nonReentrant onlyOwner returns(bool) {
+        // Check if contract has enough tokens for transfer
+        require(address(this).balance >= amount, 'Not enough tokens for this transfer');
+        // Check for integer overflow
+        require(userTokenBalance[receiver] + amount >= userTokenBalance[receiver]);
+        // Update user token balance
+        userTokenBalance[receiver] += amount;
+        // Transfer token to user
         _crowdToken.transfer(receiver, amount);
+        // Emit transfer event
+        emit TokenTransferred(receiver, amount, userTokenBalance[receiver]);
         return true;
     }
     
