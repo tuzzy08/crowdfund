@@ -22,7 +22,6 @@ import {
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
-import Web3Modal from 'web3modal';
 import Layout from '../components/Layouts/Layout';
 import ProjectCard from '../components/cards/projectCard';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
@@ -49,7 +48,7 @@ interface BlogAuthorProps {
 	date: Date;
 	name: string;
 }
-const contract_address = '0x8481cA60E21Cde418103BBBAc4ab05C21e97F010';
+const contract_address = '0x98da02A622292F3563eD079b67f1BDc16d48B039';
 
 export default function Home() {
 	const [projects, setProjects] = useState([]);
@@ -58,9 +57,7 @@ export default function Home() {
 	const createProject = async (title, desc, goal) => {
 		const { ethereum } = window;
 		if (ethereum) {
-			const web3Modal = new Web3Modal();
-			const connection = await web3Modal.connect();
-			const provider = new ethers.providers.Web3Provider(connection);
+			const provider = new ethers.providers.Web3Provider(ethereum);
 			const signer = provider.getSigner();
 			const contract = new ethers.Contract(
 				contract_address,
@@ -80,13 +77,11 @@ export default function Home() {
 		}
 	};
 
-	// Function to create new project
+	// Function to retrieve token contract address
 	const getTokenContractAddress = async () => {
 		const { ethereum } = window;
 		if (ethereum) {
-			const web3Modal = new Web3Modal();
-			const connection = await web3Modal.connect();
-			const provider = new ethers.providers.Web3Provider(connection);
+			const provider = new ethers.providers.Web3Provider(ethereum);
 			const contract = new ethers.Contract(
 				contract_address,
 				Crowdfunding.abi,
@@ -116,7 +111,6 @@ export default function Home() {
 				console.log('Please install metamask');
 				return;
 			}
-
 			const provider = new ethers.providers.Web3Provider(ethereum);
 			const contract = new ethers.Contract(
 				contract_address,

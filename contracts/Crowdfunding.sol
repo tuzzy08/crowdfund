@@ -127,16 +127,23 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     }
 
     function fetchAllProjects() public view returns(Project[] memory) {
+        // Get total number of projects listed
         uint256 totalNumberOfProjects = _projectId.current();
+        // Get total number of uncompleted projects
         uint256 totalUncompletedProjects = totalNumberOfProjects - _projectsCompleted.current();
         uint currentIndex = 0;
-
+        // Initialize an array with the size of uncompleted projects
         Project[] memory availableProjects = new Project[](totalUncompletedProjects);
+        // Loop through all the projects and filter out completed projects
         for (uint i=0; i < totalNumberOfProjects; i++) {
-            if (projectIDtoProject[i + 1].isComplete == false) {
+            if (projectIDtoProject[i + 1].isComplete == false && projectIDtoProject[i + 1].isClosed == false) {
+                // Get current project ID
                 uint256 currentItemID = projectIDtoProject[i + 1].projectID;
+                // Retrieve project from the ID
                 Project storage currentProject = projectIDtoProject[currentItemID];
+                // Store project in the array
                 availableProjects[currentIndex] = currentProject;
+                // Update index of array
                 currentIndex += 1;
             }            
         }
