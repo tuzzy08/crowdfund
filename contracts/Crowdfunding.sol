@@ -113,7 +113,10 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     }
 
     function fundProject(uint256 projectID) external payable returns (bool) {
+        // Check that the function call hass funds attached to it
         require(msg.value > 0, "You must fund an amount greater than zero");
+        // Check that the project isn't marked as closed or completed
+        require(!projectIDtoProject[projectID].isClosed && !projectIDtoProject[projectID].isComplete);
         // Update project balance
         projectIDtoProject[projectID].balance += msg.value;
         // Transfer token to address
@@ -145,6 +148,8 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         Project storage currentProject = projectIDtoProject[projectID];
         // Check that the project goal has been reached
         require(currentProject.projectGoal >= currentProject.balance, "Project funding goal hasn't been reached.");
+        // Check that the project isn't marked as closed or completed
+        require(!currentProject.isClosed && !currentProject.isComplete);
         // Reset the project balance
         currentProject.balance = 0;
         // Mark project as complete        
@@ -157,8 +162,9 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     function closeProjectAndTransferBalance(uint256 projectID) public onlyOwner nonReentrant returns(bool) {
         // Fetch the project using it's ID
         Project storage currentProject = projectIDtoProject[projectID];
-        // Check that contract has some balance
+        // Check that contract has some balance and is not already completed or closed
         require(currentProject.balance > 0, 'Not enough funds for this transfer');
+        require(!currentProject.isClosed && !currentProject.isComplete);
         // Reset contract balance and mark as closed
         currentProject.balance = 0;
         currentProject.isClosed = true;
