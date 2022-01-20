@@ -14,7 +14,7 @@ import {
 	WrapItem,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
-
+import { formatAddress } from '../../../utils/formatAddress';
 import Crowdfunding from '../../../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 const contractAddress = '0x8C91093Cef625ed1Ab15cDb12FB132f1Cb92c571';
 
@@ -41,7 +41,7 @@ const BlogTags: React.FC<IBlogTags> = (props) => {
 		>
 			{props.tags.map((tag) => {
 				return (
-					<Tag size={'md'} variant='solid' colorScheme='yellow' key={tag}>
+					<Tag size={'md'} variant='solid' colorScheme='blue' key={tag}>
 						{tag}
 					</Tag>
 				);
@@ -55,6 +55,7 @@ export default function projectCard({ project }) {
 	const balance = ethers.utils.formatEther(value);
 	value = ethers.BigNumber.from(project.projectGoal);
 	const goal = value.toString();
+	const owner = formatAddress(project.owner);
 
 	// Function to fund a project
 	const fundProject = async () => {
@@ -103,7 +104,7 @@ export default function projectCard({ project }) {
 				>
 					<Stack
 						spacing={2}
-						h={'210px'}
+						h={'250px'}
 						// bg={'gray.100'}
 						mt={-6}
 						mx={-6}
@@ -112,24 +113,14 @@ export default function projectCard({ project }) {
 					>
 						<Image
 							src={
-								'https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?ixid=MXwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHw%3D&ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
+								'/prj1.png'
 							}
-							height={'210px'}
-							width='445px'
+							height={'250px'}
+							width='400px'
 						/>
 						<BlogTags tags={['Engineering', 'Product']} marginTop='1px' />
 					</Stack>
-
 					<Stack>
-						{/* <Text
-						color={'green.500'}
-						textTransform={'uppercase'}
-						fontWeight={800}
-						fontSize={'sm'}
-						letterSpacing={1.1}
-					>
-						Blog
-					</Text> */}
 						<Heading
 							color={useColorModeValue('gray.700', 'white')}
 							fontSize={'2xl'}
@@ -139,8 +130,8 @@ export default function projectCard({ project }) {
 						</Heading>
 						<Text color={'gray.500'}>{project.description}</Text>
 					</Stack>
-					<Stack mt={8} direction={'row'} spacing={15} align={'center'}>
-						<Text fontWeight={600}>Project goal</Text>
+					<Stack mt={6} direction={'row'} spacing={15} align={'center'}>
+						<Text fontWeight={600}>Goal</Text>
 						<Text fontWeight={600} color={'green.500'}>
 							{balance} of {''}
 						</Text>
@@ -149,17 +140,20 @@ export default function projectCard({ project }) {
 							{goal} MATIC
 						</Text>
 					</Stack>
-					<Button colorScheme={'green'} size='md' mt='5' onClick={fundProject}>
+					<Center pt={2}>
+						<Button colorScheme={'green'} size='md' mt='5' onClick={fundProject}>
 						Fund project
 					</Button>
+					</Center>
+					
 					{/*  */}
-					<Stack mt={8} direction={'row'} spacing={4} align={'center'}>
+					<Stack mt={6} direction={'row'} spacing={4} align={'center'}>
 						<Avatar
 							src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
 							alt={'Author'}
 						/>
 						<Stack direction={'column'} spacing={0} fontSize={'sm'}>
-							<Text fontWeight={600}>By - {project.owner}</Text>
+							<Text fontWeight={600}>By - {owner}</Text>
 						</Stack>
 					</Stack>
 				</Box>

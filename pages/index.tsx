@@ -155,12 +155,16 @@ export default function Home() {
 		fetchAllProjects();
 	}, []);
 
+	useEffect(() => {
+		// sampleProject();
+	}, []);
+
 	return (
 		<>
 			<Layout />
 			<Hero />
 			{/* <Features /> */}
-			<Box py={2}>
+			<Box py={-2}>
 				<VStack spacing={2} textAlign='center'>
 					<Heading as='h1' fontSize='4xl'>
 						Browse available projects
