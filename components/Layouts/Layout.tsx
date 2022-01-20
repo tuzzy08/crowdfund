@@ -27,11 +27,12 @@ import {
 	MoonIcon,
 	SunIcon,
 } from '@chakra-ui/icons';
+import { formatAddress } from '../../utils/formatAddress';
 
 export default function Layout() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();
-  const [connectedAccount, setconnectedAccount] = useState(null);
+  const [connectedAccount, setconnectedAccount] = useState('');
 
   function UnconnectedWalletButton() {
     return (
@@ -67,7 +68,7 @@ export default function Layout() {
 		// Get authorized account
 		const accounts = await ethereum.request({ method: 'eth_accounts' });
 		if (accounts.length !== 0) {
-			const account = accounts[0];
+			const account = formatAddress(accounts[0]);
 			setconnectedAccount(account);
 			console.log('Found authorized account', account);
 		} else {
@@ -88,7 +89,7 @@ export default function Layout() {
       // Request user to authorize wallet
       const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
       if (accounts.length !== 0) {
-        const account = accounts[0];
+        const account = formatAddress(accounts[0]);
         setconnectedAccount(account);
         console.log('connected account', account);
       }

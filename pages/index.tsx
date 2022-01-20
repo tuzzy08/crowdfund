@@ -24,6 +24,7 @@ import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
 import Layout from '../components/Layouts/Layout';
 import ProjectCard from '../components/cards/projectCard';
+import Hero from '../components/Hero/Hero';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 interface IBlogTags {
 	tags: Array<string>;
@@ -159,16 +160,17 @@ export default function Home() {
 	return (
 		<>
 			<Layout />
+			<Hero />
 			<Box py={12}>
 				<VStack spacing={2} textAlign='center'>
 					<Heading as='h1' fontSize='4xl'>
-						Plans that fit your need
+						Browse available projects
 					</Heading>
-					<Text fontSize='lg' color={'gray.500'}>
+					{/* <Text fontSize='lg' color={'gray.500'}>
 						Start with 14-day free trial. No credit card needed. Cancel at
 						anytime.
-					</Text>
-					<Button
+					</Text> */}
+					{/* <Button
 						onClick={sampleProject}
 						display={{ base: 'none', md: 'inline-flex' }}
 						fontSize={'sm'}
@@ -181,7 +183,7 @@ export default function Home() {
 						}}
 					>
 						Create Project
-					</Button>
+					</Button> */}
 				</VStack>
 			</Box>
 			<Box py={5} mt={10} ml={3} mr={3} minH='300px'>
