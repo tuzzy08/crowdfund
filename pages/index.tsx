@@ -164,9 +164,9 @@ export default function Home() {
 			<Layout />
 			<Hero />
 			{/* <Features /> */}
-			<Box py={-2}>
+			<Box py={2}>
 				<VStack spacing={2} textAlign='center'>
-					<Heading as='h1' fontSize='4xl'>
+					<Heading as='h1' fontSize='2xl'>
 						Browse available projects
 					</Heading>
 					

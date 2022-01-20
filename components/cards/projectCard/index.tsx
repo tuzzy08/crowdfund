@@ -1,15 +1,17 @@
 import Image from 'next/image';
 import {
 	Avatar,
-  Box,
-  Button,
-  HStack,
+	Box,
+	Button,
 	Center,
+	Divider,
+	Flex,
+	HStack,
 	Heading,
-  Text,
-  Tag,
-  Stack,
-  SpaceProps,
+	Text,
+	Tag,
+	Stack,
+	SpaceProps,
 	useColorModeValue,
 	WrapItem,
 } from '@chakra-ui/react';
@@ -96,10 +98,12 @@ export default function projectCard({ project }) {
 					maxW={'389px'}
 					maxH={'547px'}
 					w={'full'}
+					border={'1px'}
+					borderColor={'gray.200'}
 					bg={useColorModeValue('white', 'gray.900')}
-					boxShadow={'2xl'}
-					rounded={'md'}
-					p={6}
+					// boxShadow={'2xl'}
+					// rounded={'md'}
+					// p={6}
 					overflow={'hidden'}
 				>
 					<Stack
@@ -108,45 +112,47 @@ export default function projectCard({ project }) {
 						// bg={'gray.100'}
 						mt={-6}
 						mx={-6}
-						mb={6}
+						mb={3}
 						pos={'relative'}
 					>
-						<Image
-							src={
-								'/prj1.png'
-							}
-							height={'250px'}
-							width='400px'
-						/>
-						<BlogTags tags={['Engineering', 'Product']} marginTop='1px' />
+						<Image src={'/prj1.png'} height={'250px'} width='400px' />
 					</Stack>
-					<Stack>
-						<Heading
+					<Flex ml={'15px'}>
+						<BlogTags tags={['Engineering', 'Product']} marginTop='1px' />
+					</Flex>
+					<Stack mt={'10px'} ml={'20px'}>
+						<Text
 							color={useColorModeValue('gray.700', 'white')}
-							fontSize={'2xl'}
+							fontWeight={200}
+							fontSize='2xl'
 							fontFamily={'body'}
 						>
 							{project.title}
-						</Heading>
+						</Text>
 						<Text color={'gray.500'}>{project.description}</Text>
 					</Stack>
-					<Stack mt={6} direction={'row'} spacing={15} align={'center'}>
-						<Text fontWeight={600}>Goal</Text>
-						<Text fontWeight={600} color={'green.500'}>
-							{balance} of {''}
+					<Flex
+						mt={6}
+						ml={'15px'}
+						direction={'row'}
+						spacing={15}
+						align={'center'}
+					>
+						<Text fontWeight={600} >
+							{`${balance} of ${goal} MATIC raised`}
 						</Text>
-						<Text fontWeight={600} color={'green.500'}>
-							{' '}
-							{goal} MATIC
-						</Text>
-					</Stack>
+					</Flex>
 					<Center pt={2}>
-						<Button colorScheme={'green'} size='md' mt='5' onClick={fundProject}>
-						Fund project
-					</Button>
+						<Button
+							colorScheme={'green'}
+							size='md'
+							mt='5'
+							onClick={fundProject}
+						>
+							Fund project
+						</Button>
 					</Center>
-					
-					{/*  */}
+					<Divider />
 					<Stack mt={6} direction={'row'} spacing={4} align={'center'}>
 						<Avatar
 							src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
