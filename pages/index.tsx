@@ -160,29 +160,12 @@ export default function Home() {
 			<Layout />
 			<Hero />
 			{/* <Features /> */}
-			<Box py={6}>
+			<Box py={2}>
 				<VStack spacing={2} textAlign='center'>
 					<Heading as='h1' fontSize='4xl'>
 						Browse available projects
 					</Heading>
-					{/* <Text fontSize='lg' color={'gray.500'}>
-						Start with 14-day free trial. No credit card needed. Cancel at
-						anytime.
-					</Text> */}
-					{/* <Button
-						onClick={sampleProject}
-						display={{ base: 'none', md: 'inline-flex' }}
-						fontSize={'sm'}
-						fontWeight={600}
-						color={'white'}
-						bg={'pink.400'}
-						href={'#'}
-						_hover={{
-							bg: 'pink.300',
-						}}
-					>
-						Create Project
-					</Button> */}
+					
 				</VStack>
 			</Box>
 			<Box py={5} mt={10} ml={3} mr={3} minH='300px'>

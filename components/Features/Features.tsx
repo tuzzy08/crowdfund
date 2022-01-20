@@ -13,7 +13,10 @@ import {
 import {
 	IoAnalyticsSharp,
 	IoLogoBitcoin,
-	IoSearchSharp,
+	IoPulseSharp,
+	IoDesktop,
+	IoRestaurantOutline,
+	IoImagesOutline,
 } from 'react-icons/io5';
 import { ReactElement } from 'react';
 
@@ -45,7 +48,7 @@ export default function SplitWithImage() {
 	return (
 		// <Container maxW={'5xl'} py={12}>
 		// <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
-		<Stack spacing={4}>			
+		<Stack spacing={4}>
 			<Heading
 				lineHeight={1.1}
 				fontWeight={600}
@@ -81,19 +84,21 @@ export default function SplitWithImage() {
 				}
 			>
 				<Feature
-					icon={<Icon as={IoAnalyticsSharp} color={'yellow.500'} w={5} h={5} />}
-					iconBg={useColorModeValue('yellow.100', 'yellow.900')}
-					text={'Technology'}
-				/>
-				<Feature
-					icon={<Icon as={IoLogoBitcoin} color={'green.500'} w={5} h={5} />}
+					icon={
+						<Icon as={IoRestaurantOutline} color={'green.500'} w={5} h={5} />
+					}
 					iconBg={useColorModeValue('green.100', 'green.900')}
-					text={'Blockchain'}
+					text={'Food'}
 				/>
 				<Feature
-					icon={<Icon as={IoSearchSharp} color={'purple.500'} w={5} h={5} />}
+					icon={<Icon as={IoImagesOutline} color={'purple.500'} w={5} h={5} />}
 					iconBg={useColorModeValue('purple.100', 'purple.900')}
-					text={'Fashion'}
+					text={'Art'}
+				/>
+				<Feature
+					icon={<Icon as={IoPulseSharp} color={'purple.500'} w={5} h={5} />}
+					iconBg={useColorModeValue('purple.100', 'purple.900')}
+					text={'Health'}
 				/>
 			</Stack>
 		</Stack>
