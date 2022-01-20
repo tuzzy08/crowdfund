@@ -142,18 +142,17 @@ export default function projectCard({ project }) {
 							{`${balance} of ${goal} MATIC raised`}
 						</Text>
 					</Flex>
-					<Center pt={2}>
+					<Center p={4}>
 						<Button
 							colorScheme={'green'}
 							size='md'
-							mt='5'
 							onClick={fundProject}
 						>
 							Fund project
 						</Button>
 					</Center>
 					<Divider />
-					<Stack mt={6} direction={'row'} spacing={4} align={'center'}>
+					<Stack mt={3} direction={'row'} spacing={4} align={'center'} p={2}>
 						<Avatar
 							src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
 							alt={'Author'}
