@@ -88,7 +88,7 @@ export default function SplitWithImage() {
 				<Feature
 					icon={<Icon as={IoLogoBitcoin} color={'green.500'} w={5} h={5} />}
 					iconBg={useColorModeValue('green.100', 'green.900')}
-					text={'Food'}
+					text={'Blockchain'}
 				/>
 				<Feature
 					icon={<Icon as={IoSearchSharp} color={'purple.500'} w={5} h={5} />}

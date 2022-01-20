@@ -330,41 +330,41 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
 	{
-		label: 'Inspiration',
+		label: 'Art/Design',
 		children: [
 			{
-				label: 'Explore Design Work',
+				label: 'Explore Art/Design',
 				subLabel: 'Trending Design to inspire you',
 				href: '#',
 			},
 			{
 				label: 'New & Noteworthy',
-				subLabel: 'Up-and-coming Designers',
+				subLabel: 'Up-and-coming inventors',
 				href: '#',
 			},
 		],
 	},
 	{
-		label: 'Find Work',
+		label: 'Technology & Craft',
 		children: [
 			{
-				label: 'Job Board',
-				subLabel: 'Find your dream design job',
+				label: 'Explore Technology',
+				subLabel: 'Find the next cool tech',
 				href: '#',
 			},
 			{
-				label: 'Freelance Projects',
-				subLabel: 'An exclusive list for contract work',
+				label: 'Explore Craft',
+				subLabel: 'Satisfy your curiosity with great art',
 				href: '#',
 			},
 		],
 	},
 	{
-		label: 'Learn Design',
+		label: 'Start a project',
 		href: '#',
 	},
-	{
-		label: 'Hire Designers',
-		href: '#',
-	},
+	// {
+	// 	label: 'Hire Designers',
+	// 	href: '#',
+	// },
 ];
