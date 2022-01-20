@@ -25,6 +25,7 @@ import { ethers } from 'ethers';
 import Layout from '../components/Layouts/Layout';
 import ProjectCard from '../components/cards/projectCard';
 import Hero from '../components/Hero/Hero';
+// import Features from '../components/Features/Features';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 interface IBlogTags {
 	tags: Array<string>;
@@ -53,7 +54,6 @@ const contract_address = '0x98da02A622292F3563eD079b67f1BDc16d48B039';
 
 export default function Home() {
 	const [projects, setProjects] = useState([]);
-
 	// Function to create new project
 	const createProject = async (title, desc, goal) => {
 		const { ethereum } = window;
@@ -77,7 +77,6 @@ export default function Home() {
 			}
 		}
 	};
-
 	// Function to retrieve token contract address
 	const getTokenContractAddress = async () => {
 		const { ethereum } = window;
@@ -96,7 +95,6 @@ export default function Home() {
 			}
 		}
 	};
-
 	// create some sample projects
 	const sampleProject = async () => {
 		// const value = ethers.BigNumber.from(5e18);
@@ -161,7 +159,8 @@ export default function Home() {
 		<>
 			<Layout />
 			<Hero />
-			<Box py={12}>
+			{/* <Features /> */}
+			<Box py={6}>
 				<VStack spacing={2} textAlign='center'>
 					<Heading as='h1' fontSize='4xl'>
 						Browse available projects
