@@ -19,6 +19,8 @@ import { ethers } from 'ethers';
 import TextTruncate from 'react-text-truncate';
 import { formatAddress } from '../../../utils/formatAddress';
 import Crowdfunding from '../../../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
+
+declare let window: any;
 const contractAddress = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
 
 interface Project {

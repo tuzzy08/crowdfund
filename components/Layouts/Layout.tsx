@@ -29,6 +29,8 @@ import {
 } from '@chakra-ui/icons';
 import { formatAddress } from '../../utils/formatAddress';
 
+declare let window: any;
+
 export default function Layout() {
   const { colorMode, toggleColorMode } = useColorMode();
   const { isOpen, onToggle } = useDisclosure();

@@ -28,6 +28,8 @@ import Hero from '../components/Hero/Hero';
 import { urls } from '../urls';
 // import Features from '../components/Features/Features';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
+
+declare let window: any;
 interface IBlogTags {
 	tags: Array<string>;
 	marginTop?: SpaceProps['marginTop'];
@@ -58,7 +60,7 @@ export default function Home() {
 	// Function to create new project
 	const createProject = async (title, desc, goal) => {
 		const { ethereum } = window;
-		if (ethereum) {
+		if (window.ethereum) {
 			const provider = new ethers.providers.Web3Provider(ethereum);
 			const signer = provider.getSigner();
 			const contract = new ethers.Contract(
@@ -160,7 +162,7 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		sampleProject();
+		// sampleProject();
 	}, []);
 
 	return (
