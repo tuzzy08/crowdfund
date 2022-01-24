@@ -16,9 +16,10 @@ import {
 	WrapItem,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
+import TextTruncate from 'react-text-truncate';
 import { formatAddress } from '../../../utils/formatAddress';
 import Crowdfunding from '../../../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
-const contractAddress = '0x8C91093Cef625ed1Ab15cDb12FB132f1Cb92c571';
+const contractAddress = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
 
 interface Project {
 	projectID: number;
@@ -52,7 +53,7 @@ const BlogTags: React.FC<IBlogTags> = (props) => {
 	);
 };
 
-export default function projectCard({ project }) {
+export default function projectCard({ project, imgSrc }) {
 	let value = ethers.BigNumber.from(project.balance);
 	const balance = ethers.utils.formatEther(value);
 	value = ethers.BigNumber.from(project.projectGoal);
@@ -95,8 +96,8 @@ export default function projectCard({ project }) {
 		<WrapItem width={{ base: '100%', sm: '45%', md: '45%', lg: '30%' }}>
 			<Center py={6}>
 				<Box
-					maxW={'389px'}
-					maxH={'547px'}
+					width={'389px'}
+					height={'547px'}
 					w={'full'}
 					border={'1px'}
 					borderColor={'gray.200'}
@@ -115,12 +116,12 @@ export default function projectCard({ project }) {
 						mb={3}
 						pos={'relative'}
 					>
-						<Image src={'/prj1.png'} height={'250px'} width='400px' />
+						<Image src={imgSrc} height={'250px'} width='400px' />
 					</Stack>
 					<Flex ml={'15px'}>
 						<BlogTags tags={['Engineering', 'Product']} marginTop='1px' />
 					</Flex>
-					<Stack mt={'10px'} ml={'20px'}>
+					<Stack mt={'10px'} ml={'20px'} mr={'20px'}>
 						<Text
 							color={useColorModeValue('gray.700', 'white')}
 							fontWeight={200}
@@ -129,7 +130,16 @@ export default function projectCard({ project }) {
 						>
 							{project.title}
 						</Text>
-						<Text color={'gray.500'}>{project.description}</Text>
+
+						{/* <Text color={'gray.500'}> */}
+							{/* <TextTruncate
+								line={1}
+								element='span'
+								truncateText='…'
+								text={project.description}
+								textTruncateChild={'...'}
+							/> */}
+						{/* </Text> */}
 					</Stack>
 					<Flex
 						mt={6}
@@ -138,21 +148,15 @@ export default function projectCard({ project }) {
 						spacing={15}
 						align={'center'}
 					>
-						<Text fontWeight={600} >
-							{`${balance} of ${goal} MATIC raised`}
-						</Text>
+						<Text fontWeight={600}>{`${balance} of ${goal} MATIC raised`}</Text>
 					</Flex>
 					<Center p={4}>
-						<Button
-							colorScheme={'green'}
-							size='md'
-							onClick={fundProject}
-						>
+						<Button colorScheme={'green'} size='md' onClick={fundProject}>
 							Fund project
 						</Button>
 					</Center>
 					<Divider />
-					<Stack mt={3} direction={'row'} spacing={4} align={'center'} p={2}>
+					<Stack position={'relative'} direction={'row'} spacing={4} align={'center'} p={2}>
 						<Avatar
 							src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
 							alt={'Author'}

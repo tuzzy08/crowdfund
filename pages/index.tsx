@@ -25,6 +25,7 @@ import { ethers } from 'ethers';
 import Layout from '../components/Layouts/Layout';
 import ProjectCard from '../components/cards/projectCard';
 import Hero from '../components/Hero/Hero';
+import { urls } from '../urls';
 // import Features from '../components/Features/Features';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 interface IBlogTags {
@@ -50,7 +51,7 @@ interface BlogAuthorProps {
 	date: Date;
 	name: string;
 }
-const contract_address = '0x2160DE35c3f5991C8911523ACAb8d9e1565A9B38';
+const contract_address = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
 
 export default function Home() {
 	const [projects, setProjects] = useState([]);
@@ -100,10 +101,10 @@ export default function Home() {
 		// const value = ethers.BigNumber.from(5e18);
 		// const goal = ethers.utils.formatEther(value);
 		// console.log(goal)
-		const title = 'HEAVYS | Headphones Engineered For Heavy Metal';
+		const title = 'Paradox - A Mountain Bike Prototype';
 		const description =
-			'Metal-loud headphones with 2 frequency ranges and 4 drivers so you can listen to metal the way it’s meant to be heard.';
-		return await createProject(title, description, 2);
+			'A new patent-protected full-suspension mountain bike prototype.';
+		return await createProject(title, description, 250);
 	};
 	// Function to fetch all projects
 	async function fetchAllProjects() {
@@ -159,7 +160,7 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		// sampleProject();
+		sampleProject();
 	}, []);
 
 	return (
@@ -184,7 +185,7 @@ export default function Home() {
 					<Flex wrap='wrap' justifyContent='space-between'>
 						{projects &&
 							projects.map((project, index) => (
-								<ProjectCard project={project} key={index} />
+								<ProjectCard project={project} key={index} imgSrc={urls[index]} />
 							))}
 					</Flex>
 				</Box>
