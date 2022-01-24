@@ -16,7 +16,6 @@ import {
 	WrapItem,
 } from '@chakra-ui/react';
 import { ethers } from 'ethers';
-import TextTruncate from 'react-text-truncate';
 import { formatAddress } from '../../../utils/formatAddress';
 import Crowdfunding from '../../../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 
