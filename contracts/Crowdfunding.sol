@@ -11,18 +11,16 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     using Counters for Counters.Counter;
     Counters.Counter private _projectId;
     Counters.Counter private _projectsCompleted;
-
     Token _crowdToken;
-
     uint _listingFee = 0.025 ether;
 
     struct Project {
-        uint256 projectID;
+        uint projectID;
+        uint projectGoal;
+        uint balance;
         string title;
         string description;
-        uint projectGoal;
         address payable owner;
-        uint balance;
         bool isComplete;
         bool isClosed;
     }
@@ -32,12 +30,12 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     mapping (address => uint) userTokenBalance;
 
     event ProjectCreated (
-        uint256 projectID,
+        uint projectID,
+        uint projectGoal,
+        uint balance,
         string title,
         string description,
-        uint projectGoal,
         address owner,
-        uint balance,
         bool isComplete,
         bool isClosed
     );
@@ -57,11 +55,11 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     constructor() payable {
         _crowdToken = new Token();
     }
-    
+    // Get address of CROWD Token contract
     function getTokenContractAddress() public view returns(address tokenContract) {
         return address(_crowdToken);
     }
-
+    // Transfer CROWD Token to an address
     function transferToken(address receiver, uint amount) private nonReentrant onlyOwner returns(bool) {
         // Check if contract has enough tokens for transfer
         require(address(this).balance >= amount, 'Not enough tokens for this transfer');
@@ -81,6 +79,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         return _listingFee;
     }
 
+    // Create a new project
     function createProject(
         string memory title,
         string memory description, 
@@ -88,30 +87,31 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         ) public payable {
             require(msg.value == _listingFee, "Amount provided not equal to listing fee");
             _projectId.increment();
-            uint256 projectID = _projectId.current();
+            uint projectID = _projectId.current();
             userIDtoProjectID[msg.sender] = projectID;
             projectIDtoProject[projectID] = Project(
                 projectID,
+                projectGoal,
+                0,
                 title,
                 description,
-                projectGoal,
                 payable (msg.sender),
-                0,
                 false,
                 false
             );
+            // Emit Project Creation event
             emit ProjectCreated(
                 projectID,
+                projectGoal,
+                0,
                 title,
                 description,
-                projectGoal,
                 payable (msg.sender),
-                0,
                 false,
                 false
             );
     }
-
+    // Fund a project
     function fundProject(uint256 projectID) external payable returns (bool) {
         // Check that the function call hass funds attached to it
         require(msg.value > 0, "You must fund an amount greater than zero");
@@ -125,7 +125,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         emit ProjectFunded(projectID, msg.value, msg.sender);
         return true;
     }
-
+    // Fetch all created projects
     function fetchAllProjects() public view returns(Project[] memory) {
         // Get total number of projects listed
         uint256 totalNumberOfProjects = _projectId.current();
@@ -149,7 +149,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         }
         return availableProjects;
     }
-
+    // Set a project as completed
     function markProjectComplete(uint projectID) public nonReentrant onlyOwner returns(bool) {
         // Fetch the project using it's ID
         Project storage currentProject = projectIDtoProject[projectID];
@@ -167,7 +167,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         currentProject.owner.transfer(currentProject.balance);
         return true;
     }
-
+    // Close project that didn't meet goal or that needs to be closed
     function closeProjectAndTransferBalance(uint256 projectID) public onlyOwner nonReentrant returns(bool) {
         // Fetch the project using it's ID
         Project storage currentProject = projectIDtoProject[projectID];
@@ -183,11 +183,11 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         currentProject.owner.transfer(currentProject.balance);   
         return true;
     }
-
+    // Fetch a project by its ID
     function fetchProjectByID(uint256 projectId) public view returns (Project memory){
     return projectIDtoProject[projectId];
     }
-
+    // Utility function to get balance of this contract
     function getBalance() public view returns(uint) {
         return address(this).balance;
     }

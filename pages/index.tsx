@@ -50,7 +50,7 @@ interface BlogAuthorProps {
 	date: Date;
 	name: string;
 }
-const contract_address = '0x98da02A622292F3563eD079b67f1BDc16d48B039';
+const contract_address = '0x2160DE35c3f5991C8911523ACAb8d9e1565A9B38';
 
 export default function Home() {
 	const [projects, setProjects] = useState([]);
@@ -100,7 +100,10 @@ export default function Home() {
 		// const value = ethers.BigNumber.from(5e18);
 		// const goal = ethers.utils.formatEther(value);
 		// console.log(goal)
-		return await createProject('Hats.ng', 'Hat making', 2);
+		const title = 'HEAVYS | Headphones Engineered For Heavy Metal';
+		const description =
+			'Metal-loud headphones with 2 frequency ranges and 4 drivers so you can listen to metal the way it’s meant to be heard.';
+		return await createProject(title, description, 2);
 	};
 	// Function to fetch all projects
 	async function fetchAllProjects() {

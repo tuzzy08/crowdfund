@@ -158,7 +158,7 @@ export default function projectCard({ project }) {
 							alt={'Author'}
 						/>
 						<Stack direction={'column'} spacing={0} fontSize={'sm'}>
-							<Text fontWeight={600}>By - {owner}</Text>
+							<Text fontWeight={600}>{`by  ${owner}`}</Text>
 						</Stack>
 					</Stack>
 				</Box>
