@@ -1,22 +1,12 @@
 import {
 	Box,
-	Container,
 	Divider,
 	Flex,
 	Stack,
 	HStack,
 	Heading,
-	Image,
-	Link,
 	Text,
 	VStack,
-	Wrap,
-	WrapItem,
-	useColorModeValue,
-	List,
-	ListItem,
-	ListIcon,
-	Button,
 	SpaceProps,
 	Tag,
 } from '@chakra-ui/react';
@@ -25,8 +15,7 @@ import { ethers } from 'ethers';
 import Layout from '../components/Layouts/Layout';
 import ProjectCard from '../components/cards/projectCard';
 import Hero from '../components/Hero/Hero';
-import { urls } from '../urls';
-// import Features from '../components/Features/Features';
+import { urls } from '../utils/urls';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 
 declare let window: any;
@@ -53,12 +42,17 @@ interface BlogAuthorProps {
 	date: Date;
 	name: string;
 }
+interface ProjectParams {
+	title: string;
+	description: string;
+	goal: number;
+}
 const contract_address = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
 
 export default function Home() {
 	const [projects, setProjects] = useState([]);
 	// Function to create new project
-	const createProject = async (title, desc, goal) => {
+	const createProject = async (options: ProjectParams) => {
 		const { ethereum } = window;
 		if (window.ethereum) {
 			const provider = new ethers.providers.Web3Provider(ethereum);
@@ -71,9 +65,14 @@ export default function Home() {
 			try {
 				let listingFee = await contract.getListingFee();
 				listingFee = listingFee.toString();
-				const transaction = await contract.createProject(title, desc, goal, {
-					value: listingFee,
-				});
+				const transaction = await contract.createProject(
+					options.title,
+					options.description,
+					options.goal,
+					{
+						value: listingFee,
+					}
+				);
 				await transaction.wait();
 			} catch (error) {
 				console.log(error);
@@ -103,10 +102,12 @@ export default function Home() {
 		// const value = ethers.BigNumber.from(5e18);
 		// const goal = ethers.utils.formatEther(value);
 		// console.log(goal)
-		const title = 'Paradox - A Mountain Bike Prototype';
-		const description =
-			'A new patent-protected full-suspension mountain bike prototype.';
-		return await createProject(title, description, 250);
+		const data = {
+			title: 'Paradox - A Mountain Bike Prototype',
+			description: 'A new patent-protected full-suspension mountain bike prototype.',
+			goal: 250,
+		};
+		return await createProject(data);
 	};
 	// Function to fetch all projects
 	async function fetchAllProjects() {

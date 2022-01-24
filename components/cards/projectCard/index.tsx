@@ -7,7 +7,6 @@ import {
 	Divider,
 	Flex,
 	HStack,
-	Heading,
 	Text,
 	Tag,
 	Stack,
@@ -54,7 +53,7 @@ const BlogTags: React.FC<IBlogTags> = (props) => {
 	);
 };
 
-export default function projectCard({ project, imgSrc }) {
+export default function projectCard({ project, imgSrc }: { project: any, imgSrc: string}) {
 	let value = ethers.BigNumber.from(project.balance);
 	const balance = ethers.utils.formatEther(value);
 	value = ethers.BigNumber.from(project.projectGoal);
