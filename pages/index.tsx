@@ -1,5 +1,6 @@
 import {
 	Box,
+	Container,
 	Divider,
 	Flex,
 	Stack,
@@ -24,24 +25,6 @@ interface IBlogTags {
 	marginTop?: SpaceProps['marginTop'];
 }
 
-const BlogTags: React.FC<IBlogTags> = (props) => {
-	return (
-		<HStack spacing={2} marginTop={props.marginTop}>
-			{props.tags.map((tag) => {
-				return (
-					<Tag size={'md'} variant='solid' colorScheme='orange' key={tag}>
-						{tag}
-					</Tag>
-				);
-			})}
-		</HStack>
-	);
-};
-
-interface BlogAuthorProps {
-	date: Date;
-	name: string;
-}
 interface ProjectParams {
 	title: string;
 	description: string;
@@ -167,7 +150,7 @@ export default function Home() {
 	}, []);
 
 	return (
-		<>
+		<Container maxW={'container.xl'}>
 			<Layout />
 			<Hero />
 			{/* <Features /> */}
@@ -176,7 +159,6 @@ export default function Home() {
 					<Heading as='h1' fontSize='2xl'>
 						Browse available projects
 					</Heading>
-					
 				</VStack>
 			</Box>
 			<Box py={5} mt={10} ml={3} mr={3} minH='300px'>
@@ -188,11 +170,15 @@ export default function Home() {
 					<Flex wrap='wrap' justifyContent='space-between'>
 						{projects &&
 							projects.map((project, index) => (
-								<ProjectCard project={project} key={index} imgSrc={urls[index]} />
+								<ProjectCard
+									project={project}
+									key={index}
+									imgSrc={urls[index]}
+								/>
 							))}
 					</Flex>
 				</Box>
 			</Box>
-		</>
+		</Container>
 	);
 }
