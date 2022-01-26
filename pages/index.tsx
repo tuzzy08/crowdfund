@@ -18,80 +18,20 @@ import ProjectCard from '../components/cards/projectCard';
 import Hero from '../components/Hero/Hero';
 import { urls } from '../utils/urls';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
+import { ContractUtils } from '../utils/contractUtils';
 
 declare let window: any;
+
 interface IBlogTags {
 	tags: Array<string>;
 	marginTop?: SpaceProps['marginTop'];
 }
 
-interface ProjectParams {
-	title: string;
-	description: string;
-	goal: number;
-}
-const contract_address = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
+const contractAddress = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
 
 export default function Home() {
 	const [projects, setProjects] = useState([]);
-	// Function to create new project
-	const createProject = async (options: ProjectParams) => {
-		const { ethereum } = window;
-		if (window.ethereum) {
-			const provider = new ethers.providers.Web3Provider(ethereum);
-			const signer = provider.getSigner();
-			const contract = new ethers.Contract(
-				contract_address,
-				Crowdfunding.abi,
-				signer
-			);
-			try {
-				let listingFee = await contract.getListingFee();
-				listingFee = listingFee.toString();
-				const transaction = await contract.createProject(
-					options.title,
-					options.description,
-					options.goal,
-					{
-						value: listingFee,
-					}
-				);
-				await transaction.wait();
-			} catch (error) {
-				console.log(error);
-			}
-		}
-	};
-	// Function to retrieve token contract address
-	const getTokenContractAddress = async () => {
-		const { ethereum } = window;
-		if (ethereum) {
-			const provider = new ethers.providers.Web3Provider(ethereum);
-			const contract = new ethers.Contract(
-				contract_address,
-				Crowdfunding.abi,
-				provider
-			);
-			try {
-				const tokenContractAdrdress = await contract.getTokenContractAddress();
-				console.log(tokenContractAdrdress);
-			} catch (error) {
-				console.log(error);
-			}
-		}
-	};
-	// create some sample projects
-	const sampleProject = async () => {
-		// const value = ethers.BigNumber.from(5e18);
-		// const goal = ethers.utils.formatEther(value);
-		// console.log(goal)
-		const data = {
-			title: 'Paradox - A Mountain Bike Prototype',
-			description: 'A new patent-protected full-suspension mountain bike prototype.',
-			goal: 250,
-		};
-		return await createProject(data);
-	};
+
 	// Function to fetch all projects
 	async function fetchAllProjects() {
 		try {
@@ -102,7 +42,7 @@ export default function Home() {
 			}
 			const provider = new ethers.providers.Web3Provider(ethereum);
 			const contract = new ethers.Contract(
-				contract_address,
+				contractAddress,
 				Crowdfunding.abi,
 				provider
 			);
@@ -112,6 +52,21 @@ export default function Home() {
 			throw error;
 		}
 	}
+
+	// create some sample projects
+	const sampleProject = async () => {
+		// const value = ethers.BigNumber.from(5e18);
+		// const goal = ethers.utils.formatEther(value);
+		// console.log(goal)
+		const data = {
+			title: 'Paradox - A Mountain Bike Prototype',
+			description:
+				'A new patent-protected full-suspension mountain bike prototype.',
+			goal: 250,
+		};
+		return await ContractUtils.createProject(data);
+	};
+
 	// Function to setup event listener
 	function setupListener() {
 		const { ethereum } = window;
@@ -121,7 +76,7 @@ export default function Home() {
 		}
 		const provider = new ethers.providers.Web3Provider(ethereum);
 		const contract = new ethers.Contract(
-			contract_address,
+			contractAddress,
 			Crowdfunding.abi,
 			provider
 		);
@@ -134,7 +89,7 @@ export default function Home() {
 		});
 	}
 	useEffect(() => {
-		getTokenContractAddress();
+		ContractUtils.getTokenContractAddress();
 	}, []);
 
 	useEffect(() => {

@@ -14,6 +14,7 @@ import {
 	useColorModeValue,
 	WrapItem,
 } from '@chakra-ui/react';
+import Link from 'next/link';
 import { ethers } from 'ethers';
 import { formatAddress } from '../../../utils/formatAddress';
 import Crowdfunding from '../../../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
@@ -53,12 +54,13 @@ const BlogTags: React.FC<IBlogTags> = (props) => {
 	);
 };
 
-export default function projectCard({ project, imgSrc }: { project: any, imgSrc: string}) {
+export default function projectCard({ project, imgSrc }: { project: Project, imgSrc: string}) {
 	let value = ethers.BigNumber.from(project.balance);
 	const balance = ethers.utils.formatEther(value);
 	value = ethers.BigNumber.from(project.projectGoal);
 	const goal = value.toString();
 	const owner = formatAddress(project.owner);
+	const prjId = ethers.BigNumber.from(project.projectID).toNumber();;
 
 	// Function to fund a project
 	const fundProject = async () => {
@@ -77,8 +79,7 @@ export default function projectCard({ project, imgSrc }: { project: any, imgSrc:
 			Crowdfunding.abi,
 			signer
 		);
-		let id = ethers.BigNumber.from(project.projectID);
-		let prjId = id.toNumber();
+		
 		
 		try {
 			const transaction = await contract.fundProject(prjId, {
@@ -132,7 +133,7 @@ export default function projectCard({ project, imgSrc }: { project: any, imgSrc:
 						</Text>
 
 						{/* <Text color={'gray.500'}> */}
-							{/* <TextTruncate
+						{/* <TextTruncate
 								line={1}
 								element='span'
 								truncateText='…'
@@ -151,12 +152,23 @@ export default function projectCard({ project, imgSrc }: { project: any, imgSrc:
 						<Text fontWeight={600}>{`${balance} of ${goal} MATIC raised`}</Text>
 					</Flex>
 					<Center p={4}>
-						<Button colorScheme={'green'} size='md' onClick={fundProject}>
+						<Button
+							as={Link}
+							colorScheme={'green'}
+							size='md'
+							href={`/${prjId}`}
+						>
 							Fund project
 						</Button>
 					</Center>
 					<Divider />
-					<Stack position={'relative'} direction={'row'} spacing={4} align={'center'} p={2}>
+					<Stack
+						position={'relative'}
+						direction={'row'}
+						spacing={4}
+						align={'center'}
+						p={2}
+					>
 						<Avatar
 							src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
 							alt={'Author'}
