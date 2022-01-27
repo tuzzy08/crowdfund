@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+
 import {
 	Box,
 	Flex,
@@ -9,11 +10,15 @@ import {
 	Collapse,
 	Icon,
 	Link,
+	Menu,
+	MenuButton,
+	MenuList,
+	MenuItem,
 	Popover,
 	PopoverTrigger,
-  PopoverContent,
-  Tag,
-  useColorMode,
+	PopoverContent,
+	Tag,
+	useColorMode,
 	useColorModeValue,
 	useBreakpointValue,
 	useDisclosure,
@@ -53,7 +58,31 @@ export default function Layout() {
 				Connect Wallet
 			</Button>
 		);
-  }
+	}
+	
+	function ConnectedWalletPanel() {
+		return (
+			<>
+				<Menu>
+					{({ isOpen }) => (
+						<>
+							<MenuButton
+								isActive={isOpen}
+								as={Button}
+								rightIcon={<ChevronDownIcon />}
+							>
+								{connectedAccount}
+							</MenuButton>
+							<MenuList>
+								<MenuItem>Profile</MenuItem>
+								<MenuItem onClick={() => alert('Test')}>Disconnect wallet</MenuItem>
+							</MenuList>
+						</>
+					)}
+				</Menu>
+			</>
+		);
+	}
   /**
    * Check if wallet is connected!
    */

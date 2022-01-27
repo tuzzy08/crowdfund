@@ -1,5 +1,6 @@
 import { ethers } from 'ethers';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
+import { Project } from '../components/cards/projectCard';
 const contractAddress = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
 
 declare let window: any;
@@ -9,9 +10,8 @@ interface ProjectParams {
 	description: string;
 	goal: number;
 }
-
 // Function to create new project
-const createProject = async (options: ProjectParams) => {
+async function createProject(options: ProjectParams) {
 		const { ethereum } = window;
 		if (window.ethereum) {
 			const provider = new ethers.providers.Web3Provider(ethereum);
@@ -37,29 +37,10 @@ const createProject = async (options: ProjectParams) => {
 				console.log(error);
 			}
 		}
-	};
-  
-// Function to retrieve token contract address
-const getTokenContractAddress = async () => {
-		const { ethereum } = window;
-		if (ethereum) {
-			const provider = new ethers.providers.Web3Provider(ethereum);
-			const contract = new ethers.Contract(
-				contractAddress,
-				Crowdfunding.abi,
-				provider
-			);
-			try {
-				const tokenContractAdrdress = await contract.getTokenContractAddress();
-				console.log(tokenContractAdrdress);
-			} catch (error) {
-				console.log(error);
-			}
-		}
 };
-  
+	
 // Function to fund a project
-const fundProject = async (projectID: number) => {
+const fundProject = async function fundProject(projectID: number) {
   const { ethereum } = window;
   if (!ethereum) {
     console.log('Please install Metamask');
@@ -87,6 +68,53 @@ const fundProject = async (projectID: number) => {
     throw error;
   }
 };
+  
+// Function to retrieve token contract address
+async function getTokenContractAddress() {
+		const { ethereum } = window;
+		if (ethereum) {
+			const provider = new ethers.providers.Web3Provider(ethereum);
+			const contract = new ethers.Contract(
+				contractAddress,
+				Crowdfunding.abi,
+				provider
+			);
+			try {
+				const tokenContractAdrdress = await contract.getTokenContractAddress();
+				console.log(tokenContractAdrdress);
+			} catch (error) {
+				console.log(error);
+			}
+		}
+};
+
+// Function to fetch all projects
+async function fetchAllProjects(): Promise<Array<Project>> {
+try {
+	const { ethereum } = window;
+	if (!ethereum) {
+		console.log('Please install metamask');
+		return [];
+	}
+	const provider = new ethers.providers.Web3Provider(ethereum);
+	const contract = new ethers.Contract(
+		contractAddress,
+		Crowdfunding.abi,
+		provider
+	);
+	const transaction = await contract.fetchAllProjects();
+	return transaction;
+} catch (error) {
+	throw error;
+}
+}
+
+  
 	
 	
-export const ContractUtils = { createProject, fundProject, getTokenContractAddress };
+export const ContractUtils = {
+	createProject,
+	fundProject,
+	getTokenContractAddress,
+	fetchAllProjects,
+};

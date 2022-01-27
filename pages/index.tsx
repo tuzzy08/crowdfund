@@ -19,6 +19,7 @@ import Hero from '../components/Hero/Hero';
 import { urls } from '../utils/urls';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 import { ContractUtils } from '../utils/contractUtils';
+import { Project } from '../components/cards/projectCard';
 
 declare let window: any;
 
@@ -26,33 +27,11 @@ interface IBlogTags {
 	tags: Array<string>;
 	marginTop?: SpaceProps['marginTop'];
 }
-
 const contractAddress = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
 
 export default function Home() {
-	const [projects, setProjects] = useState([]);
-
-	// Function to fetch all projects
-	async function fetchAllProjects() {
-		try {
-			const { ethereum } = window;
-			if (!ethereum) {
-				console.log('Please install metamask');
-				return;
-			}
-			const provider = new ethers.providers.Web3Provider(ethereum);
-			const contract = new ethers.Contract(
-				contractAddress,
-				Crowdfunding.abi,
-				provider
-			);
-			const transaction = await contract.fetchAllProjects();
-			setProjects(transaction);
-		} catch (error) {
-			throw error;
-		}
-	}
-
+	let defaultState: Array<Project> = [];
+	const [projects, setProjects] = useState(defaultState);
 	// create some sample projects
 	const sampleProject = async () => {
 		// const value = ethers.BigNumber.from(5e18);
@@ -66,7 +45,6 @@ export default function Home() {
 		};
 		return await ContractUtils.createProject(data);
 	};
-
 	// Function to setup event listener
 	function setupListener() {
 		const { ethereum } = window;
@@ -81,11 +59,11 @@ export default function Home() {
 			provider
 		);
 		contract.on('ProjectCreated', () => {
-			fetchAllProjects();
+			ContractUtils.fetchAllProjects();
 		});
 
 		contract.on('ProjectFunded', () => {
-			fetchAllProjects();
+			ContractUtils.fetchAllProjects();
 		});
 	}
 	useEffect(() => {
@@ -97,7 +75,11 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		fetchAllProjects();
+		const getProjects = async () => {
+			const allProjects = await ContractUtils.fetchAllProjects();
+			setProjects(allProjects);
+		}
+		getProjects();
 	}, []);
 
 	useEffect(() => {
@@ -105,7 +87,7 @@ export default function Home() {
 	}, []);
 
 	return (
-		<Container maxW={'container.xl'}>
+		<Box>
 			<Layout />
 			<Hero />
 			{/* <Features /> */}
@@ -134,6 +116,6 @@ export default function Home() {
 					</Flex>
 				</Box>
 			</Box>
-		</Container>
+		</Box>
 	);
 }

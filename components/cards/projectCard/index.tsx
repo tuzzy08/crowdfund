@@ -20,9 +20,9 @@ import { formatAddress } from '../../../utils/formatAddress';
 import Crowdfunding from '../../../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 
 declare let window: any;
-const contractAddress = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
 
-interface Project {
+
+export interface Project {
 	projectID: number;
 	title: string;
 	description: string;
@@ -62,35 +62,7 @@ export default function projectCard({ project, imgSrc }: { project: Project, img
 	const owner = formatAddress(project.owner);
 	const prjId = ethers.BigNumber.from(project.projectID).toNumber();;
 
-	// Function to fund a project
-	const fundProject = async () => {
-		const { ethereum } = window;
-		if (!ethereum) {
-			console.log('Please install Metamask');
-			return;
-		}
-		// Get blockchain provider
-		const provider = new ethers.providers.Web3Provider(ethereum);
-		// get authorized account to sign transactions
-		const signer = provider.getSigner();
-		// Fetch the contract from chain - Passing in contract address, contract_abi, provider
-		const contract = new ethers.Contract(
-			contractAddress,
-			Crowdfunding.abi,
-			signer
-		);
-		
-		
-		try {
-			const transaction = await contract.fundProject(prjId, {
-				value: '500000000000000000',
-			});
-			// Wait for transaction to be mined
-			await transaction.wait();
-		} catch (error) {
-			throw error;
-		}
-	};
+	
 
 	
 	return (
@@ -152,14 +124,9 @@ export default function projectCard({ project, imgSrc }: { project: Project, img
 						<Text fontWeight={600}>{`${balance} of ${goal} MATIC raised`}</Text>
 					</Flex>
 					<Center p={4}>
-						<Button
-							as={Link}
-							colorScheme={'green'}
-							size='md'
-							href={`/${prjId}`}
-						>
-							Fund project
-						</Button>
+						<Link href={`/${prjId}`}>
+							<a>view project</a>
+						</Link>
 					</Center>
 					<Divider />
 					<Stack
