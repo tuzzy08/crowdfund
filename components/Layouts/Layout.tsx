@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-
 import {
 	Box,
 	Flex,
@@ -23,7 +22,6 @@ import {
 	useBreakpointValue,
 	useDisclosure,
 } from '@chakra-ui/react';
-import { ethers } from 'ethers';
 import {
 	HamburgerIcon,
 	CloseIcon,
@@ -32,6 +30,13 @@ import {
 	MoonIcon,
 	SunIcon,
 } from '@chakra-ui/icons';
+import {
+	IoCaretDownOutline,
+	IoChevronDownCircleSharp,
+	IoExitOutline,
+	IoLockOpen,
+	IoPersonSharp,
+} from 'react-icons/io5';
 import { formatAddress } from '../../utils/formatAddress';
 
 declare let window: any;
@@ -58,8 +63,7 @@ export default function Layout() {
 				Connect Wallet
 			</Button>
 		);
-	}
-	
+	}	
 	function ConnectedWalletPanel() {
 		return (
 			<>
@@ -69,13 +73,15 @@ export default function Layout() {
 							<MenuButton
 								isActive={isOpen}
 								as={Button}
-								rightIcon={<ChevronDownIcon />}
+								rightIcon={<IoCaretDownOutline />}
 							>
 								{connectedAccount}
 							</MenuButton>
 							<MenuList>
-								<MenuItem>Profile</MenuItem>
-								<MenuItem onClick={() => alert('Test')}>Disconnect wallet</MenuItem>
+								<MenuItem icon={<IoPersonSharp />}>Profile</MenuItem>
+								<MenuItem icon={<IoLockOpen />} onClick={() => disconnectWallet()}>
+									Disconnect wallet
+								</MenuItem>
 							</MenuList>
 						</>
 					)}
@@ -106,7 +112,6 @@ export default function Layout() {
 			console.log('No authorized account found');
 		}
 	}
-
   /**
    * Connect a wallet
    */
@@ -127,8 +132,14 @@ export default function Layout() {
     } catch (error) {
       console.log(error);
     }
-  }
-
+	}
+	/**
+	 * Disconnect function
+	 */
+	function disconnectWallet() {
+		return setconnectedAccount('');
+	}
+	
   useEffect(() => {
     checkIfWalletIsConnected();
   });
@@ -182,10 +193,11 @@ export default function Layout() {
 					<Button onClick={toggleColorMode}>
 						{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
 					</Button>
-          {connectedAccount ? (
-            <Tag size={'sm'} variant='solid' overflow='hidden' colorScheme='teal'>
-              {connectedAccount}
-            </Tag>
+					{connectedAccount ? (
+						<ConnectedWalletPanel />
+            // <Tag size={'sm'} variant='solid' overflow='hidden' colorScheme='teal'>
+            //   {connectedAccount}
+            // </Tag>
 					) : (
 						<UnconnectedWalletButton />
 					)}
