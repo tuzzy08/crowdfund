@@ -26,12 +26,12 @@ export default function ProjectDetails(props: any) {
 				<Flex
 					border={'1px'}
 					wrap={'wrap'}
-					maxW={{ base: '100%', md: '1290px' }}
+					w={{ base: '100%', md: '1290px' }}
 					justifyContent={'space-evenly'}
 					padding={1}
 				>
 					<Flex border={'1px'}>
-						<Image border={'1px'} src='/prj3.png' alt='Dan Abramov' />
+						<Image border={'1px'} src='/prj3.png' alt='Dan Abramov' minW={{ base: '100%', md: '820px'}}/>
 					</Flex>
 					<VStack
 						border={'1px'}
