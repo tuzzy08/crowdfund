@@ -8,7 +8,9 @@ import {
 	IoLogoTwitter,
 	IoPawOutline,
 } from 'react-icons/io5';
+import { Divider, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import Layout from '../components/Layouts/Layout';
+import Footer from '../components/Footer/Footer';
 
 export default function ProjectDetails(props: any) {
    const router = useRouter();
@@ -17,10 +19,10 @@ export default function ProjectDetails(props: any) {
 		<Box>
 			<Layout />
 			<VStack mt={7}>
-				<Heading as='h1' fontSize='3xl' border={'1px'}>
+				<Heading as='h1' fontSize='3xl'>
 					Project title
 				</Heading>
-				<Text fontWeight={200} fontSize='2xl' border={'1px'}>
+				<Text fontWeight={200} fontSize='2xl'>
 					Project Headline
 				</Text>
 				<Flex
@@ -70,39 +72,31 @@ export default function ProjectDetails(props: any) {
 					</VStack>
 				</Flex>
 			</VStack>
+			{/* Gradient Banner */}
 			<Flex
 				wrap={'wrap'}
 				minH={'80px'}
+				// width={'100vw'}
 				justifyContent={'center'}
-				mt={'60px'}
+				// position={'relative'}
+				// top={'150px'}
+				mt={'120px'}
 				p={10}
 				bgGradient='linear(to-l, #7928CA, #FF0080)'
 			>
-				<Flex
-					maxW={'500px'}
-					justifyContent={'space-between'}
-					p={'20px'}
-				>
+				<Flex maxW={'500px'} justifyContent={'space-between'} p={'20px'}>
 					<Icon as={IoPawOutline} color={'green.500'} w={10} h={10} mr={3} />
 					<Text fontWeight={400} fontSize={'18px'}>
 						Connects creators with backers to fund projects.
 					</Text>
 				</Flex>
-				<Flex
-					maxW={'500px'}
-					justifyContent={'space-between'}
-					p={'20px'}
-				>
+				<Flex maxW={'500px'} justifyContent={'space-between'} p={'20px'}>
 					<Icon as={IoRibbonOutline} color={'green.500'} w={10} h={10} mr={3} />
 					<Text fontWeight={400} fontSize={'18px'}>
 						Rewards aren’t guaranteed, but some contributions earn you tokens.
 					</Text>
 				</Flex>
-				<Flex
-					maxW={'500px'}
-					justifyContent={'space-between'}
-					p={'20px'}
-				>
+				<Flex maxW={'500px'} justifyContent={'space-between'} p={'20px'}>
 					<Icon as={IoTicketOutline} color={'green.500'} w={10} h={10} mr={3} />
 					<Text fontWeight={400} fontSize={'18px'}>
 						You’re only charged if the project meets its funding goal by the
@@ -110,6 +104,30 @@ export default function ProjectDetails(props: any) {
 					</Text>
 				</Flex>
 			</Flex>
+			{/* Project's Description Tab */}
+			<VStack mt='30px' mb='100px'>
+				<Tabs width={'76vw'}>
+					<TabList>
+						<Tab>Description</Tab>
+						<Tab>Updates</Tab>
+						<Tab>Contact</Tab>
+					</TabList>
+					<TabPanels>
+						<TabPanel>
+							<p>one!</p>
+						</TabPanel>
+						<TabPanel>
+							<p>two!</p>
+						</TabPanel>
+						<TabPanel>
+							<p>three!</p>
+						</TabPanel>
+					</TabPanels>
+				</Tabs>
+				<Divider />
+			</VStack>
+
+			<Footer />
 		</Box>
 	);
 }

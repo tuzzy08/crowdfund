@@ -20,6 +20,7 @@ import { urls } from '../utils/urls';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 import { ContractUtils } from '../utils/contractUtils';
 import { Project } from '../components/cards/projectCard';
+import Footer from '../components/Footer/Footer';
 
 declare let window: any;
 
@@ -98,7 +99,7 @@ export default function Home() {
 					</Heading>
 				</VStack>
 			</Box>
-			<Box py={5} mt={10} ml={3} mr={3} minH='300px'>
+			<Box py={5} mt={10} ml={3} mr={3} minH='300px' mb={50}>
 				<Box maxW={'7xl'} ml='auto' mr='auto'>
 					<Text fontSize='2xl' color={'gray.500'} align='left'>
 						Latest projects
@@ -115,7 +116,9 @@ export default function Home() {
 							))}
 					</Flex>
 				</Box>
+				<Divider />
 			</Box>
+			<Footer />
 		</Box>
 	);
 }
