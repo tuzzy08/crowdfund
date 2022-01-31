@@ -3,7 +3,10 @@ import { useRouter } from 'next/router';
 import {
 	IoLogoFacebook,
 	IoLogoInstagram,
+	IoRibbonOutline,
+	IoTicketOutline,
 	IoLogoTwitter,
+	IoPawOutline,
 } from 'react-icons/io5';
 import Layout from '../components/Layouts/Layout';
 
@@ -67,6 +70,46 @@ export default function ProjectDetails(props: any) {
 					</VStack>
 				</Flex>
 			</VStack>
+			<Flex
+				wrap={'wrap'}
+				minH={'80px'}
+				justifyContent={'center'}
+				mt={'60px'}
+				p={10}
+				bgGradient='linear(to-l, #7928CA, #FF0080)'
+			>
+				<Flex
+					maxW={'500px'}
+					justifyContent={'space-between'}
+					p={'20px'}
+				>
+					<Icon as={IoPawOutline} color={'green.500'} w={10} h={10} mr={3} />
+					<Text fontWeight={400} fontSize={'18px'}>
+						Connects creators with backers to fund projects.
+					</Text>
+				</Flex>
+				<Flex
+					maxW={'500px'}
+					justifyContent={'space-between'}
+					p={'20px'}
+				>
+					<Icon as={IoRibbonOutline} color={'green.500'} w={10} h={10} mr={3} />
+					<Text fontWeight={400} fontSize={'18px'}>
+						Rewards aren’t guaranteed, but some contributions earn you tokens.
+					</Text>
+				</Flex>
+				<Flex
+					maxW={'500px'}
+					justifyContent={'space-between'}
+					p={'20px'}
+				>
+					<Icon as={IoTicketOutline} color={'green.500'} w={10} h={10} mr={3} />
+					<Text fontWeight={400} fontSize={'18px'}>
+						You’re only charged if the project meets its funding goal by the
+						campaign deadline.
+					</Text>
+				</Flex>
+			</Flex>
 		</Box>
 	);
 }
