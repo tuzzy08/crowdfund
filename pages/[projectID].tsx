@@ -1,12 +1,9 @@
 import { Box, Button, Center, Container, Flex, Heading, HStack, Icon, Image, VStack, SimpleGrid, Spacer, Stack, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
 import {
-	IoAnalyticsSharp,
-	IoLogoBitcoin,
-	IoPulseSharp,
-	IoDesktop,
-	IoRestaurantOutline,
-	IoImagesOutline,
+	IoLogoFacebook,
+	IoLogoInstagram,
+	IoLogoTwitter,
 } from 'react-icons/io5';
 import Layout from '../components/Layouts/Layout';
 
@@ -31,7 +28,12 @@ export default function ProjectDetails(props: any) {
 					padding={1}
 				>
 					<Flex border={'1px'}>
-						<Image border={'1px'} src='/prj3.png' alt='Dan Abramov' minW={{ base: '100%', md: '820px'}}/>
+						<Image
+							border={'1px'}
+							src='/prj3.png'
+							alt='Dan Abramov'
+							minW={{ base: '100%', md: '820px' }}
+						/>
 					</Flex>
 					<VStack
 						border={'1px'}
@@ -58,9 +60,9 @@ export default function ProjectDetails(props: any) {
 						</Flex>
 						<Button width={'90%'}>Fund project</Button>
 						<HStack spacing={5}>
-							<Icon as={IoRestaurantOutline} color={'green.500'} w={5} h={5} />
-							<Icon as={IoRestaurantOutline} color={'green.500'} w={5} h={5} />
-							<Icon as={IoRestaurantOutline} color={'green.500'} w={5} h={5} />
+							<Icon as={IoLogoFacebook} color={'blue.500'} w={5} h={5} />
+							<Icon as={IoLogoInstagram} color={'blue.500'} w={5} h={5} />
+							<Icon as={IoLogoTwitter} color={'blue.500'} w={5} h={5} />
 						</HStack>
 					</VStack>
 				</Flex>
