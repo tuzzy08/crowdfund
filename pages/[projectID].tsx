@@ -1,5 +1,7 @@
 import { Box, Button, Center, Container, Flex, Heading, HStack, Icon, Image, VStack, SimpleGrid, Spacer, Stack, Text } from '@chakra-ui/react';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { ethers } from 'ethers';
 import {
 	IoLogoFacebook,
 	IoLogoInstagram,
@@ -11,52 +13,77 @@ import {
 import { Divider, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
 import Layout from '../components/Layouts/Layout';
 import Footer from '../components/Footer/Footer';
+import { ContractUtils } from '../utils/contractUtils';
+import { Project } from '../components/cards/projectCard';
+import { urls } from '../utils/urls';
 
+interface Details {
+	title: string;
+	description: string;
+	balance: number;
+	funders: number;
+	owner: string;
+}
 export default function ProjectDetails(props: any) {
-   const router = useRouter();
-   const { projectID } = router.query;
+	const [project, setProject] = useState<Details>({
+		title: '',
+		description: '',
+		owner: '',
+		balance: 0,
+		funders: 0,
+	});
+	const router = useRouter();
+	let id: any = router.query.projectID;
+	id = id.toString();
+	useEffect(() => {
+		// Fetching the project
+		const getProject = async () => {
+			const currentProject: Project = await ContractUtils.fetchProject(id);
+			const details: Details = {
+				title: currentProject.title,
+				description: currentProject.description,
+				balance: ethers.BigNumber.from(currentProject.balance).toNumber(),
+				funders: ethers.BigNumber.from(currentProject.funders).toNumber(),
+				owner: currentProject.owner,
+			};
+			console.log(details)
+			setProject({ ...project, ...details });
+		}
+		getProject();
+	},[]);
   return (
 		<Box>
 			<Layout />
-			<VStack mt={7}>
+			<VStack mt={10} spacing={3}>
 				<Heading as='h1' fontSize='3xl'>
-					Project title
+					{project.title}
 				</Heading>
-				<Text fontWeight={200} fontSize='2xl'>
-					Project Headline
+				<Text fontWeight={200} fontSize='2xl' pb={5}>
+					{project.description}
 				</Text>
 				<Flex
-					border={'1px'}
 					wrap={'wrap'}
 					w={{ base: '100%', md: '1290px' }}
 					justifyContent={'space-evenly'}
 					padding={1}
 				>
-					<Flex border={'1px'}>
+					<Flex>
 						<Image
-							border={'1px'}
-							src='/prj3.png'
+							src={`${urls[parseInt(id) - 1]}`}
 							alt='Dan Abramov'
 							minW={{ base: '100%', md: '820px' }}
 						/>
 					</Flex>
-					<VStack
-						border={'1px'}
-						w={'420px'}
-						h={'520.500px'}
-						spacing={8}
-						pl={3}
-						pr={3}
-					>
+					<VStack w={'420px'} h={'520.500px'} spacing={8} pl={3} pr={3}>
 						<Box width='95%' height='10px' bgColor={'red.400'} />
 						<Flex direction={'column'}>
-							<Heading as='h1' fontSize='3xl' border={'1px'} color={'red.400'}>
-								MATIC: Project Balance
+							<Heading as='h1' fontSize='3xl' color={'red.400'}>
+								MATIC: {project.balance}
 							</Heading>
 							<Text>Remaining of goal</Text>
 							<Text fontSize='3xl' alignSelf={'flex-start'} mt={10}>
 								{' '}
-								Number of funders
+								Number of funders: {project.funders}
 							</Text>
 							<Text fontSize='3xl' alignSelf={'flex-start'} mt={10} mb={10}>
 								{' '}
@@ -76,10 +103,7 @@ export default function ProjectDetails(props: any) {
 			<Flex
 				wrap={'wrap'}
 				minH={'80px'}
-				// width={'100vw'}
 				justifyContent={'center'}
-				// position={'relative'}
-				// top={'150px'}
 				mt={'120px'}
 				p={10}
 				bgGradient='linear(to-l, #7928CA, #FF0080)'
@@ -130,4 +154,17 @@ export default function ProjectDetails(props: any) {
 			<Footer />
 		</Box>
 	);
+}
+/**
+ * Note: NextJS dynamic routes that are statically generated lose their query parameters
+ * as this is fetched after hydration. As a result if the page is refreshed it results in 
+ * an error. So this page is optimised for server side rendering to able to access the route
+ * parameters which is available only after hydration.
+ * @param context 
+ * @returns 
+ */
+export async function getServerSideProps(context: object) {
+	return {
+		props: {},
+	};
 }

@@ -18,6 +18,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         uint projectID;
         uint projectGoal;
         uint balance;
+        uint funders;
         string title;
         string description;
         address payable owner;
@@ -93,6 +94,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
                 projectID,
                 projectGoal,
                 0,
+                0,
                 title,
                 description,
                 payable (msg.sender),
@@ -119,6 +121,8 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
         require(!projectIDtoProject[projectID].isClosed && !projectIDtoProject[projectID].isComplete);
         // Update project balance
         projectIDtoProject[projectID].balance += msg.value;
+        // Update number of funders
+        projectIDtoProject[projectID].funders += 1;
         // Transfer token to address
         transferToken(msg.sender, 1000000000000000000);
         // Emit funding event

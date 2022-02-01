@@ -17,10 +17,7 @@ import {
 import Link from 'next/link';
 import { ethers } from 'ethers';
 import { formatAddress } from '../../../utils/formatAddress';
-import Crowdfunding from '../../../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
-
 declare let window: any;
-
 
 export interface Project {
 	projectID: number;
@@ -29,6 +26,7 @@ export interface Project {
 	projectGoal: number;
 	owner: string;
 	balance: string;
+	funders: number;
 }
 
 interface IBlogTags {
@@ -60,11 +58,7 @@ export default function projectCard({ project, imgSrc }: { project: Project, img
 	value = ethers.BigNumber.from(project.projectGoal);
 	const goal = value.toString();
 	const owner = formatAddress(project.owner);
-	const prjId = ethers.BigNumber.from(project.projectID).toNumber();;
-
-	
-
-	
+	const prjId = ethers.BigNumber.from(project.projectID).toNumber();	
 	return (
 		<WrapItem width={{ base: '100%', sm: '45%', md: '45%', lg: '30%' }}>
 			<Center py={6}>
@@ -75,15 +69,11 @@ export default function projectCard({ project, imgSrc }: { project: Project, img
 					border={'1px'}
 					borderColor={'gray.200'}
 					bg={useColorModeValue('white', 'gray.900')}
-					// boxShadow={'2xl'}
-					// rounded={'md'}
-					// p={6}
 					overflow={'hidden'}
 				>
 					<Stack
 						spacing={2}
 						h={'250px'}
-						// bg={'gray.100'}
 						mt={-6}
 						mx={-6}
 						mb={3}
@@ -103,16 +93,6 @@ export default function projectCard({ project, imgSrc }: { project: Project, img
 						>
 							{project.title}
 						</Text>
-
-						{/* <Text color={'gray.500'}> */}
-						{/* <TextTruncate
-								line={1}
-								element='span'
-								truncateText='…'
-								text={project.description}
-								textTruncateChild={'...'}
-							/> */}
-						{/* </Text> */}
 					</Stack>
 					<Flex
 						mt={6}

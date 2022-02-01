@@ -28,7 +28,7 @@ interface IBlogTags {
 	tags: Array<string>;
 	marginTop?: SpaceProps['marginTop'];
 }
-const contractAddress = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
+const contractAddress = '0xd990B0eF9b7d2322b309Fd5427191670D73bBBFb';
 
 export default function Home() {
 	let defaultState: Array<Project> = [];
@@ -39,9 +39,8 @@ export default function Home() {
 		// const goal = ethers.utils.formatEther(value);
 		// console.log(goal)
 		const data = {
-			title: 'Paradox - A Mountain Bike Prototype',
-			description:
-				'A new patent-protected full-suspension mountain bike prototype.',
+			title: 'HEAVYS | Headphones Engineered For Heavy Metal',
+			description: 'Metal-loud headphones with 2 frequency ranges and 4 drivers so you can listen to metal the way it’s meant to be heard.',
 			goal: 250,
 		};
 		return await ContractUtils.createProject(data);

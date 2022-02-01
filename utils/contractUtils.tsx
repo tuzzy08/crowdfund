@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 import { Project } from '../components/cards/projectCard';
-const contractAddress = '0xEF0301D6eDFd8A3846639Fd3A5dDcb0Ab5d7e0E9';
+const contractAddress = '0xd990B0eF9b7d2322b309Fd5427191670D73bBBFb';
 
 declare let window: any;
 
@@ -88,6 +88,27 @@ async function getTokenContractAddress() {
 		}
 };
 
+// Function to fetch individual projects
+async function fetchProject(id: string): Promise<Project | any> {
+try {
+	const { ethereum } = window;
+	if (!ethereum) {
+		console.log('Please install metamask');
+		return null;
+	}
+	const provider = new ethers.providers.Web3Provider(ethereum);
+	const contract = new ethers.Contract(
+		contractAddress,
+		Crowdfunding.abi,
+		provider
+	);
+	const transaction = await contract.fetchProjectByID(id);
+	return transaction;
+} catch (error) {
+	throw error;
+}
+}
+
 // Function to fetch all projects
 async function fetchAllProjects(): Promise<Array<Project>> {
 try {
@@ -116,5 +137,6 @@ export const ContractUtils = {
 	createProject,
 	fundProject,
 	getTokenContractAddress,
+	fetchProject,
 	fetchAllProjects,
 };
