@@ -104,7 +104,7 @@ export default function projectCard({ project, imgSrc }: { project: Project, img
 						<Text fontWeight={600}>{`${balance} of ${goal} MATIC raised`}</Text>
 					</Flex>
 					<Center p={4}>
-						<Link href={`/${prjId}`}>
+						<Link href={'/projects/[projectID]'} as={`/projects/${prjId}`}>
 							<a>view project</a>
 						</Link>
 					</Center>

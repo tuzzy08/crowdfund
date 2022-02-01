@@ -11,11 +11,11 @@ import {
 	IoPawOutline,
 } from 'react-icons/io5';
 import { Divider, Tabs, TabList, TabPanels, Tab, TabPanel } from '@chakra-ui/react';
-import Layout from '../components/Layouts/Layout';
-import Footer from '../components/Footer/Footer';
-import { ContractUtils } from '../utils/contractUtils';
-import { Project } from '../components/cards/projectCard';
-import { urls } from '../utils/urls';
+import Layout from '../../components/Layouts/Layout';
+import Footer from '../../components/Footer/Footer';
+import { ContractUtils } from '../../utils/contractUtils';
+import { Project } from '../../components/cards/projectCard';
+import { urls } from '../../utils/urls';
 
 interface Details {
 	title: string;
@@ -55,12 +55,14 @@ export default function ProjectDetails(props: any) {
 		<Box>
 			<Layout />
 			<VStack mt={10} spacing={3}>
-				<Heading as='h1' fontSize='3xl'>
-					{project.title}
-				</Heading>
-				<Text fontWeight={200} fontSize='2xl' pb={5}>
-					{project.description}
-				</Text>
+				<VStack padding={4}>
+					<Heading as='h1' fontSize='3xl'>
+						{project.title}
+					</Heading>
+					<Text fontWeight={200} fontSize='22px' pb={5}>
+						{project.description}
+					</Text>
+				</VStack>
 				<Flex
 					wrap={'wrap'}
 					w={{ base: '100%', md: '1290px' }}
@@ -71,11 +73,11 @@ export default function ProjectDetails(props: any) {
 						<Image
 							src={`${urls[parseInt(id) - 1]}`}
 							alt='Dan Abramov'
-							minW={{ base: '100%', md: '820px' }}
+							maxW={{ base: '100%', md: '820px' }}
 						/>
 					</Flex>
 					<VStack w={'420px'} h={'520.500px'} spacing={8} pl={3} pr={3}>
-						<Box width='95%' height='10px' bgColor={'red.400'} />
+						<Box width='95%' height='10px' bgColor={'red.400'} mt={{ base: '10px'}}/>
 						<Flex direction={'column'}>
 							<Heading as='h1' fontSize='3xl' color={'red.400'}>
 								MATIC: {project.balance}
@@ -104,7 +106,7 @@ export default function ProjectDetails(props: any) {
 				wrap={'wrap'}
 				minH={'80px'}
 				justifyContent={'center'}
-				mt={'120px'}
+				mt={{ base: '5px', md: '120px' }}
 				p={10}
 				bgGradient='linear(to-l, #7928CA, #FF0080)'
 			>

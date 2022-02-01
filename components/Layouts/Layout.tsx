@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import NextLink from 'next/link';
 import {
 	Box,
 	Flex,
@@ -38,7 +40,6 @@ import {
 	IoPersonSharp,
 } from 'react-icons/io5';
 import { formatAddress } from '../../utils/formatAddress';
-
 declare let window: any;
 
 export default function Layout() {
@@ -171,13 +172,24 @@ export default function Layout() {
 					/>
 				</Flex>
 				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-					<Text
+					<NextLink href='/' passHref>
+						Logo
+						{/* <Link
+							textDecor={'none'}
+							textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+							fontFamily={'heading'}
+							color={useColorModeValue('gray.800', 'white')}
+						>
+							Logo
+						</Link> */}
+					</NextLink>
+					{/* <Text
+						as={Link}
+						href='/'
 						textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
 						fontFamily={'heading'}
 						color={useColorModeValue('gray.800', 'white')}
-					>
-						Logo
-					</Text>
+					></Text> */}
 
 					<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
 						<DesktopNav />
@@ -195,10 +207,10 @@ export default function Layout() {
 					</Button>
 					{connectedAccount ? (
 						<ConnectedWalletPanel />
-            // <Tag size={'sm'} variant='solid' overflow='hidden' colorScheme='teal'>
-            //   {connectedAccount}
-            // </Tag>
 					) : (
+						// <Tag size={'sm'} variant='solid' overflow='hidden' colorScheme='teal'>
+						//   {connectedAccount}
+						// </Tag>
 						<UnconnectedWalletButton />
 					)}
 				</Stack>
@@ -222,19 +234,20 @@ const DesktopNav = () => {
 				<Box key={navItem.label}>
 					<Popover trigger={'hover'} placement={'bottom-start'}>
 						<PopoverTrigger>
-							<Link
-								p={2}
-								href={navItem.href ?? '#'}
-								fontSize={'sm'}
-								fontWeight={500}
-								color={linkColor}
-								_hover={{
-									textDecoration: 'none',
-									color: linkHoverColor,
-								}}
-							>
-								{navItem.label}
-							</Link>
+							<NextLink href={navItem.href ?? '#'} passHref>
+								<Link
+									p={2}
+									fontSize={'sm'}
+									fontWeight={500}
+									color={linkColor}
+									_hover={{
+										textDecoration: 'none',
+										color: linkHoverColor,
+									}}
+								>
+									{navItem.label}
+								</Link>
+							</NextLink>
 						</PopoverTrigger>
 
 						{navItem.children && (
@@ -372,6 +385,10 @@ interface NavItem {
 }
 
 const NAV_ITEMS: Array<NavItem> = [
+	{
+		label: 'Home',
+		href: '/'
+	},
 	{
 		label: 'Art/Design',
 		children: [

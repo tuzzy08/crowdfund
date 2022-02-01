@@ -39,8 +39,9 @@ export default function Home() {
 		// const goal = ethers.utils.formatEther(value);
 		// console.log(goal)
 		const data = {
-			title: 'HEAVYS | Headphones Engineered For Heavy Metal',
-			description: 'Metal-loud headphones with 2 frequency ranges and 4 drivers so you can listen to metal the way it’s meant to be heard.',
+			title: 'CrossHelmet - the smart motorcycle helmet',
+			description:
+				'Next generation motorcycle helmet with sound control & 360° visibility t0 transform your riding experience.',
 			goal: 250,
 		};
 		return await ContractUtils.createProject(data);
