@@ -38,6 +38,21 @@ async function createProject(options: ProjectParams) {
 			}
 		}
 };
+
+// Function to get connected wallet address
+async function getConnectedWalletAddress(): Promise<string> {
+	// Check if the browser has metamask or similar
+	const { ethereum } = window;
+	if (!ethereum) {
+		throw new Error('Please install Metamask');
+	} 
+	// Get authorized account
+	const accounts = await ethereum.request({ method: 'eth_accounts' });
+	if (accounts.length === 0) {
+		throw new Error('Please connect wallet to Metamask');
+	}
+	return accounts[0];
+}
 	
 // Function to fund a project
 const fundProject = async function fundProject(projectID: number) {
@@ -55,8 +70,7 @@ const fundProject = async function fundProject(projectID: number) {
     contractAddress,
     Crowdfunding.abi,
     signer
-  );
-  
+  ); 
   
   try {
     const transaction = await contract.fundProject(projectID, {
@@ -137,6 +151,7 @@ try {
 export const ContractUtils = {
 	createProject,
 	fundProject,
+	getConnectedWalletAddress,
 	getTokenContractAddress,
 	fetchProject,
 	fetchAllProjects,
