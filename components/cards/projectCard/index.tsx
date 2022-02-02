@@ -3,7 +3,6 @@ import NextLink from 'next/link';
 import {
 	Avatar,
 	Box,
-	Button,
 	Center,
 	Divider,
 	Flex,
@@ -116,9 +115,6 @@ export default function projectCard({ project, imgSrc }: { project: Project, img
 								passHref
 							>
 								<LinkOverlay></LinkOverlay>
-								{/* <Link as={`/projects/${prjId}`}>
-									<a>view project</a>
-								</Link> */}
 							</NextLink>
 						</Center>
 						<Divider />

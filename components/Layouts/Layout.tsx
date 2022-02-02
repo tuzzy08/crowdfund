@@ -34,8 +34,6 @@ import {
 } from '@chakra-ui/icons';
 import {
 	IoCaretDownOutline,
-	IoChevronDownCircleSharp,
-	IoExitOutline,
 	IoLockOpen,
 	IoPersonSharp,
 } from 'react-icons/io5';

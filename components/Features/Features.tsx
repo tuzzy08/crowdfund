@@ -1,7 +1,4 @@
 import {
-	Container,
-	SimpleGrid,
-	Image,
 	Flex,
 	Heading,
 	Text,
@@ -11,10 +8,7 @@ import {
 	useColorModeValue,
 } from '@chakra-ui/react';
 import {
-	IoAnalyticsSharp,
-	IoLogoBitcoin,
 	IoPulseSharp,
-	IoDesktop,
 	IoRestaurantOutline,
 	IoImagesOutline,
 } from 'react-icons/io5';
@@ -46,8 +40,6 @@ const Feature = ({ text, icon, iconBg }: FeatureProps) => {
 
 export default function SplitWithImage() {
 	return (
-		// <Container maxW={'5xl'} py={12}>
-		// <SimpleGrid columns={{ base: 1, md: 2 }} spacing={10}>
 		<Stack spacing={4}>
 			<Heading
 				lineHeight={1.1}
@@ -103,7 +95,5 @@ export default function SplitWithImage() {
 				/>
 			</Stack>
 		</Stack>
-		// </SimpleGrid>
-		// </Container>
 	);
 }

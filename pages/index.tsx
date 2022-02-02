@@ -1,15 +1,11 @@
 import {
 	Box,
-	Container,
 	Divider,
 	Flex,
-	Stack,
-	HStack,
 	Heading,
 	Text,
 	VStack,
 	SpaceProps,
-	Tag,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { ethers } from 'ethers';
@@ -28,7 +24,7 @@ interface IBlogTags {
 	tags: Array<string>;
 	marginTop?: SpaceProps['marginTop'];
 }
-const contractAddress = '0xd990B0eF9b7d2322b309Fd5427191670D73bBBFb';
+const contractAddress = '0x45e4151d98185373c26d6c6E2B4B048733eF6F94';
 
 export default function Home() {
 	let defaultState: Array<Project> = [];

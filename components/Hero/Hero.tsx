@@ -3,7 +3,6 @@ import {
 	Stack,
 	Flex,
 	Box,
-	Heading,
 	Text,
 	Button,
 	Image,

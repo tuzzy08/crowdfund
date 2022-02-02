@@ -2,13 +2,12 @@ import {
 	Box,
 	chakra,
 	Container,
-	Link,
 	Stack,
 	Text,
 	useColorModeValue,
 	VisuallyHidden,
 } from '@chakra-ui/react';
-import { FaFacebook, FaInstagram, FaTwitter, FaYoutube } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 import { ReactNode } from 'react';
 
 const Logo = (props: any) => {
@@ -71,7 +70,6 @@ export default function SmallWithLogoLeft() {
 			position={'sticky'}
 			bottom={0}
 			width={'100%'}
-      // marginTop='auto'
 		>
 			<Container
 				as={Stack}

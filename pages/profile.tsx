@@ -1,23 +1,14 @@
 import {
   Box,
-  Center,
 	Container,
-	Divider,
-	Flex,
-	Stack,
-	HStack,
 	Heading,
 	Text,
 	VStack,
-  SpaceProps,
-  Spacer,
 	Tag,
 } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
-import { ethers } from 'ethers';
 import Layout from '../components/Layouts/Layout';
 import Footer from '../components/Footer/Footer';
-import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 import { ContractUtils } from '../utils/contractUtils';
 
 export default function Profile() {
