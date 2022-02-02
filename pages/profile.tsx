@@ -19,12 +19,13 @@ import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.j
 
 export default function Profile() {
   return (
-    <>
-      <Layout />
-      <Container>
-        <Box>Image</Box>
-        <Footer />
-      </Container>
-    </>
-  )
+		<Box>
+			<Layout />
+			<Container maxW='container.lg'>
+        <Box border={'1px'} borderRadius={'50%'} width={'200px'} height={'200px'}>Image</Box>
+        <Box width={'500px'} height={'300px'} border={'1px'}></Box>
+			</Container>
+			<Footer />
+		</Box>
+	);
 }

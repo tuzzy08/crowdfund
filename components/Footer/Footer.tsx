@@ -67,8 +67,11 @@ export default function SmallWithLogoLeft() {
 	return (
 		<Box
 			bg={useColorModeValue('gray.50', 'gray.900')}
-      color={useColorModeValue('gray.700', 'gray.200')}
-      marginTop='auto'
+			color={useColorModeValue('gray.700', 'gray.200')}
+			position={'fixed'}
+			bottom={0}
+			width={'100%'}
+      // marginTop='auto'
 		>
 			<Container
 				as={Stack}

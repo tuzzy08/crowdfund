@@ -159,7 +159,6 @@ export default function ProjectDetails(props: any) {
 				</Tabs>
 				<Divider />
 			</VStack>
-
 			<Footer />
 		</Box>
 	);
