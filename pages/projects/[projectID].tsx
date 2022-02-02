@@ -15,7 +15,7 @@ import Layout from '../../components/Layouts/Layout';
 import Footer from '../../components/Footer/Footer';
 import { ContractUtils } from '../../utils/contractUtils';
 import { Project } from '../../components/cards/projectCard';
-import { urls } from '../../utils/urls';
+import { urls, loremIpsum } from '../../utils/urls';
 
 interface Details {
 	title: string;
@@ -77,7 +77,12 @@ export default function ProjectDetails(props: any) {
 						/>
 					</Flex>
 					<VStack w={'420px'} h={'520.500px'} spacing={8} pl={3} pr={3}>
-						<Box width='95%' height='10px' bgColor={'red.400'} mt={{ base: '10px'}}/>
+						<Box
+							width='95%'
+							height='10px'
+							bgColor={'red.400'}
+							mt={{ base: '10px' }}
+						/>
 						<Flex direction={'column'}>
 							<Heading as='h1' fontSize='3xl' color={'red.400'}>
 								MATIC: {project.balance}
@@ -92,7 +97,9 @@ export default function ProjectDetails(props: any) {
 								Remaining time
 							</Text>
 						</Flex>
-						<Button width={'90%'}>Fund project</Button>
+						<Button width={'90%'} onClick={() => ContractUtils.fundProject(id)}>
+							Fund project
+						</Button>
 						<HStack spacing={5}>
 							<Icon as={IoLogoFacebook} color={'blue.500'} w={5} h={5} />
 							<Icon as={IoLogoInstagram} color={'blue.500'} w={5} h={5} />
@@ -140,13 +147,13 @@ export default function ProjectDetails(props: any) {
 					</TabList>
 					<TabPanels>
 						<TabPanel>
-							<p>one!</p>
+							<p>{loremIpsum}</p>
 						</TabPanel>
 						<TabPanel>
-							<p>two!</p>
+							<p></p>
 						</TabPanel>
 						<TabPanel>
-							<p>three!</p>
+							<p></p>
 						</TabPanel>
 					</TabPanels>
 				</Tabs>

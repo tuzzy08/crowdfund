@@ -76,6 +76,7 @@ export default function SplitWithImage() {
 				</Text>
 			</Heading>
 			<Stack
+				padding={'5px'}
 				spacing={4}
 				divider={
 					<StackDivider

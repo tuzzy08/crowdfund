@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import NextLink from 'next/link';
 import {
 	Avatar,
 	Box,
@@ -7,6 +8,8 @@ import {
 	Divider,
 	Flex,
 	HStack,
+	LinkBox,
+	LinkOverlay,
 	Text,
 	Tag,
 	Stack,
@@ -14,7 +17,6 @@ import {
 	useColorModeValue,
 	WrapItem,
 } from '@chakra-ui/react';
-import Link from 'next/link';
 import { ethers } from 'ethers';
 import { formatAddress } from '../../../utils/formatAddress';
 declare let window: any;
@@ -58,74 +60,86 @@ export default function projectCard({ project, imgSrc }: { project: Project, img
 	value = ethers.BigNumber.from(project.projectGoal);
 	const goal = value.toString();
 	const owner = formatAddress(project.owner);
-	const prjId = ethers.BigNumber.from(project.projectID).toNumber();	
+	const prjId = ethers.BigNumber.from(project.projectID).toNumber();
+	
 	return (
 		<WrapItem width={{ base: '100%', sm: '45%', md: '45%', lg: '30%' }}>
-			<Center py={6}>
-				<Box
-					width={'389px'}
-					height={'547px'}
-					w={'full'}
-					border={'1px'}
-					borderColor={'gray.200'}
-					bg={useColorModeValue('white', 'gray.900')}
-					overflow={'hidden'}
-				>
-					<Stack
-						spacing={2}
-						h={'250px'}
-						mt={-6}
-						mx={-6}
-						mb={3}
-						pos={'relative'}
+				<LinkBox>
+				<Center py={6}>
+					<Box
+						width={'389px'}
+						height={'547px'}
+						w={'full'}
+						border={'1px'}
+						borderColor={'gray.200'}
+						bg={useColorModeValue('white', 'gray.900')}
+						overflow={'hidden'}
 					>
-						<Image src={imgSrc} height={'250px'} width='400px' />
-					</Stack>
-					<Flex ml={'15px'}>
-						<BlogTags tags={['Engineering', 'Product']} marginTop='1px' />
-					</Flex>
-					<Stack mt={'10px'} ml={'20px'} mr={'20px'}>
-						<Text
-							color={useColorModeValue('gray.700', 'white')}
-							fontWeight={200}
-							fontSize='2xl'
-							fontFamily={'body'}
+						<Stack
+							spacing={2}
+							h={'250px'}
+							mt={-6}
+							mx={-6}
+							mb={3}
+							pos={'relative'}
 						>
-							{project.title}
-						</Text>
-					</Stack>
-					<Flex
-						mt={6}
-						ml={'15px'}
-						direction={'row'}
-						spacing={15}
-						align={'center'}
-					>
-						<Text fontWeight={600}>{`${balance} of ${goal} MATIC raised`}</Text>
-					</Flex>
-					<Center p={4}>
-						<Link href={'/projects/[projectID]'} as={`/projects/${prjId}`}>
-							<a>view project</a>
-						</Link>
-					</Center>
-					<Divider />
-					<Stack
-						position={'relative'}
-						direction={'row'}
-						spacing={4}
-						align={'center'}
-						p={2}
-					>
-						<Avatar
-							src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
-							alt={'Author'}
-						/>
-						<Stack direction={'column'} spacing={0} fontSize={'sm'}>
-							<Text fontWeight={600}>{`by  ${owner}`}</Text>
+							<Image src={imgSrc} height={'250px'} width='400px' />
 						</Stack>
-					</Stack>
-				</Box>
-			</Center>
-		</WrapItem>
+						<Flex ml={'15px'}>
+							<BlogTags tags={['Engineering', 'Product']} marginTop='1px' />
+						</Flex>
+						<Stack mt={'10px'} ml={'20px'} mr={'20px'}>
+							<Text
+								color={useColorModeValue('gray.700', 'white')}
+								fontWeight={200}
+								fontSize='2xl'
+								fontFamily={'body'}
+							>
+								{project.title}
+							</Text>
+						</Stack>
+						<Flex
+							mt={6}
+							ml={'15px'}
+							direction={'row'}
+							spacing={15}
+							align={'center'}
+						>
+							<Text
+								fontWeight={600}
+							>{`${balance} of ${goal} MATIC raised`}</Text>
+						</Flex>
+						<Center p={4}>
+							<NextLink
+								href={'/projects/[projectID]'}
+								as={`/projects/${prjId}`}
+								passHref
+							>
+								<LinkOverlay></LinkOverlay>
+								{/* <Link as={`/projects/${prjId}`}>
+									<a>view project</a>
+								</Link> */}
+							</NextLink>
+						</Center>
+						<Divider />
+						<Stack
+							position={'relative'}
+							direction={'row'}
+							spacing={4}
+							align={'center'}
+							p={2}
+						>
+							<Avatar
+								src={'https://avatars0.githubusercontent.com/u/1164541?v=4'}
+								alt={'Author'}
+							/>
+							<Stack direction={'column'} spacing={0} fontSize={'sm'}>
+								<Text fontWeight={600}>{`by  ${owner}`}</Text>
+							</Stack>
+						</Stack>
+					</Box>
+				</Center>
+		</LinkBox>
+			</WrapItem>
 	);
 }

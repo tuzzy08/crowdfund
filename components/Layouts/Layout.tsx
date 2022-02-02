@@ -66,26 +66,26 @@ export default function Layout() {
 		);
 	}	
 	function ConnectedWalletPanel() {
+		const router = useRouter();
 		return (
 			<>
 				<Menu>
-					{({ isOpen }) => (
-						<>
-							<MenuButton
-								isActive={isOpen}
-								as={Button}
-								rightIcon={<IoCaretDownOutline />}
+						<MenuButton
+							isActive={isOpen}
+							as={Button}
+							rightIcon={<IoCaretDownOutline />}
+						>
+							{connectedAccount}
+						</MenuButton>
+						<MenuList>
+							<MenuItem icon={<IoPersonSharp />} onClick={() => router.push('/profile')}>Profile</MenuItem>
+							<MenuItem
+								icon={<IoLockOpen />}
+								onClick={() => disconnectWallet()}
 							>
-								{connectedAccount}
-							</MenuButton>
-							<MenuList>
-								<MenuItem icon={<IoPersonSharp />}>Profile</MenuItem>
-								<MenuItem icon={<IoLockOpen />} onClick={() => disconnectWallet()}>
-									Disconnect wallet
-								</MenuItem>
-							</MenuList>
-						</>
-					)}
+								Disconnect wallet
+							</MenuItem>
+						</MenuList>
 				</Menu>
 			</>
 		);
@@ -143,7 +143,8 @@ export default function Layout() {
 	
   useEffect(() => {
     checkIfWalletIsConnected();
-  });
+	});
+	
 	return (
 		<Box>
 			<Flex
@@ -172,48 +173,28 @@ export default function Layout() {
 					/>
 				</Flex>
 				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-					<NextLink href='/' passHref>
+					<NextLink href='/'>
 						Logo
-						{/* <Link
-							textDecor={'none'}
-							textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-							fontFamily={'heading'}
-							color={useColorModeValue('gray.800', 'white')}
-						>
-							Logo
-						</Link> */}
 					</NextLink>
-					{/* <Text
-						as={Link}
-						href='/'
-						textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-						fontFamily={'heading'}
-						color={useColorModeValue('gray.800', 'white')}
-					></Text> */}
-
-					<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
+				<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
 						<DesktopNav />
 					</Flex>
 				</Flex>
 
-				<Stack
+				<Flex
 					flex={{ base: 1, md: 0 }}
-					justify={'flex-end'}
-					direction={'row'}
-					spacing={6}
+					// justify={'flex-end'}
+					justifyContent={'space-between'}
 				>
-					<Button onClick={toggleColorMode}>
+					<Button onClick={toggleColorMode} mr={5}>
 						{colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
 					</Button>
 					{connectedAccount ? (
 						<ConnectedWalletPanel />
 					) : (
-						// <Tag size={'sm'} variant='solid' overflow='hidden' colorScheme='teal'>
-						//   {connectedAccount}
-						// </Tag>
 						<UnconnectedWalletButton />
 					)}
-				</Stack>
+				</Flex>
 			</Flex>
 
 			<Collapse in={isOpen} animateOpacity>
@@ -234,7 +215,7 @@ const DesktopNav = () => {
 				<Box key={navItem.label}>
 					<Popover trigger={'hover'} placement={'bottom-start'}>
 						<PopoverTrigger>
-							<NextLink href={navItem.href ?? '#'} passHref>
+							{/* <NextLink href={navItem.href ?? '#'} passHref> */}
 								<Link
 									p={2}
 									fontSize={'sm'}
@@ -247,7 +228,7 @@ const DesktopNav = () => {
 								>
 									{navItem.label}
 								</Link>
-							</NextLink>
+							{/* </NextLink> */}
 						</PopoverTrigger>
 
 						{navItem.children && (
