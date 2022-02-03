@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 import { Project } from '../components/cards/projectCard';
-const contractAddress = '0x45e4151d98185373c26d6c6E2B4B048733eF6F94';
+const contractAddress = '0xC5CEFb5870C1E50c3281D49B8CC0DFCb01dC525e';
 
 declare let window: any;
 

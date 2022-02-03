@@ -24,7 +24,7 @@ interface IBlogTags {
 	tags: Array<string>;
 	marginTop?: SpaceProps['marginTop'];
 }
-const contractAddress = '0x45e4151d98185373c26d6c6E2B4B048733eF6F94';
+const contractAddress = '0xC5CEFb5870C1E50c3281D49B8CC0DFCb01dC525e';
 
 export default function Home() {
 	let defaultState: Array<Project> = [];
@@ -35,9 +35,9 @@ export default function Home() {
 		// const goal = ethers.utils.formatEther(value);
 		// console.log(goal)
 		const data = {
-			title: 'HEAVYS | Headphones Engineered For Heavy Metal',
+			title: 'CrossHelmet - the smart motorcycle helmet',
 			description:
-				'Metal-loud headphones with 2 frequency ranges and 4 drivers so you can listen to metal the way it’s meant to be heard.',
+				'The CrossHelmet is a next generation motorcycle helmet with sound control & 360° visibility that will transform your riding experience.',
 			goal: 250,
 		};
 		return await ContractUtils.createProject(data);

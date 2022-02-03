@@ -20,17 +20,19 @@ import { urls, loremIpsum } from '../../utils/urls';
 interface Details {
 	title: string;
 	description: string;
-	balance: number;
+	balance: string;
 	funders: number;
 	owner: string;
+	goal: string;
 }
 export default function ProjectDetails(props: any) {
 	const [project, setProject] = useState<Details>({
 		title: '',
 		description: '',
 		owner: '',
-		balance: 0,
+		balance: '',
 		funders: 0,
+		goal: '',
 	});
 	const router = useRouter();
 	let id: any = router.query.projectID;
@@ -39,12 +41,16 @@ export default function ProjectDetails(props: any) {
 		// Fetching the project
 		const getProject = async () => {
 			const currentProject: Project = await ContractUtils.fetchProject(id);
+			const value = ethers.BigNumber.from(currentProject.balance);
+			const temp = ethers.BigNumber.from(currentProject.projectGoal);
+			const goal = temp.toString();
 			const details: Details = {
 				title: currentProject.title,
 				description: currentProject.description,
-				balance: ethers.BigNumber.from(currentProject.balance).toNumber(),
+				balance: ethers.utils.formatEther(value),
 				funders: ethers.BigNumber.from(currentProject.funders).toNumber(),
 				owner: currentProject.owner,
+				goal,
 			};
 			console.log(details)
 			setProject({ ...project, ...details });
@@ -72,7 +78,7 @@ export default function ProjectDetails(props: any) {
 					<Flex>
 						<Image
 							src={`${urls[parseInt(id) - 1]}`}
-							alt='Dan Abramov'
+							alt={`${project.title}`}
 							maxW={{ base: '100%', md: '820px' }}
 						/>
 					</Flex>
@@ -84,20 +90,28 @@ export default function ProjectDetails(props: any) {
 							mt={{ base: '10px' }}
 						/>
 						<Flex direction={'column'}>
-							<Heading as='h1' fontSize='3xl' color={'red.400'}>
-								MATIC: {project.balance}
-							</Heading>
-							<Text>Remaining of goal</Text>
+							<HStack spacing={2}>
+								<Heading as='h1' fontSize='3xl' color={'red.400'}>
+									MATIC: {project.balance}
+								</Heading>
+								<Text>Remaining of {project.goal} Matic</Text>
+							</HStack>
 							<Text fontSize='3xl' alignSelf={'flex-start'} mt={10}>
 								{' '}
 								Number of funders: {project.funders}
 							</Text>
 							<Text fontSize='3xl' alignSelf={'flex-start'} mt={10} mb={10}>
 								{' '}
-								Remaining time
+								Remaining time: 00:00
 							</Text>
 						</Flex>
-						<Button width={'90%'} onClick={() => ContractUtils.fundProject(id)}>
+						<Button
+							width={'90%'}
+							onClick={() => {
+								ContractUtils.fundProject(id);
+								router.push('/');
+							}}
+						>
 							Fund project
 						</Button>
 						<HStack spacing={5}>
