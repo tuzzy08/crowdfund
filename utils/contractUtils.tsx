@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 import { Project } from '../components/cards/projectCard';
-const contractAddress = '0xC5CEFb5870C1E50c3281D49B8CC0DFCb01dC525e';
+const contractAddress = '0x8b1e36a2d8069Baee4256e17C10C6Cc03265949B';
 
 declare let window: any;
 
@@ -106,10 +106,10 @@ async function getTokenContractAddress() {
 // Function to fetch individual projects
 async function fetchProject(id: string): Promise<Project | any> {
 try {
+	// Check if the browser has metamask or similar
 	const { ethereum } = window;
 	if (!ethereum) {
-		console.log('Please install metamask');
-		return null;
+		throw new Error('Please install Metamask');
 	}
 	const provider = new ethers.providers.Web3Provider(ethereum);
 	const contract = new ethers.Contract(
@@ -145,6 +145,26 @@ try {
 }
 }
 
+// Function to fetch user token balance
+async function getCrowdTokenBalance(): Promise<String> {
+	// Check if the browser has metamask or similar
+	const { ethereum } = window;
+	if (!ethereum) {
+		throw new Error('Please install Metamask');
+	}
+	const userAddress: string = await getConnectedWalletAddress();
+	const provider = new ethers.providers.Web3Provider(ethereum);
+	const contract = new ethers.Contract(
+		contractAddress,
+		Crowdfunding.abi,
+		provider
+	);
+	const transaction = await contract.getUserCrowdTokenBalance();
+	const value = ethers.BigNumber.from(transaction);
+
+	return value.toString();
+}
+
   
 	
 	
@@ -155,4 +175,5 @@ export const ContractUtils = {
 	getTokenContractAddress,
 	fetchProject,
 	fetchAllProjects,
+	getCrowdTokenBalance,
 };

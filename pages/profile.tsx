@@ -12,7 +12,21 @@ import Footer from '../components/Footer/Footer';
 import { ContractUtils } from '../utils/contractUtils';
 
 export default function Profile() {
-  const [connectedWallet, setconnectedWallet] = useState<string>('');
+  const [connectedWallet, setconnectedWallet] = useState<String>('');
+  const [tokenBalance, settokenBlance] = useState<String>('');
+
+  useEffect(() => {
+    const getBalance = async function getBalance() {
+      const balance = await ContractUtils.getCrowdTokenBalance();
+      settokenBlance(balance);
+    }
+    try {
+      getBalance();
+    } catch (error) {
+      console.log(error);
+    }
+    
+  });
   
   useEffect(() => {
     const getWalletAddress = async function getWalletAddress() {
@@ -33,6 +47,7 @@ export default function Profile() {
 						bgColor={'gray.100'}
 					/>
 					<Box
+						border={'1px'}
 						width={'750px'}
 						boxShadow={'md'}
 						height={'140px'}
@@ -50,7 +65,7 @@ export default function Profile() {
 						</VStack>
 					</Box>
 					<Box
-						bg='white'
+						border={'1px'}
 						boxShadow={'md'}
 						height={'140px'}
 						width={'750px'}
@@ -61,7 +76,7 @@ export default function Profile() {
 							<Heading as={'h1'} size={'md'}>
 								CTK Token Balance
 							</Heading>
-							<Text fontSize='2xl'>0</Text>
+							<Text fontSize='2xl'>{tokenBalance}</Text>
 						</VStack>
 					</Box>
 				</VStack>

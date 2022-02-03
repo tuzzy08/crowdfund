@@ -38,6 +38,7 @@ import {
 	IoPersonSharp,
 } from 'react-icons/io5';
 import { formatAddress } from '../../utils/formatAddress';
+import { Logo } from '../Footer/Footer';
 declare let window: any;
 
 export default function Layout() {
@@ -77,12 +78,12 @@ export default function Layout() {
 						</MenuButton>
 						<MenuList>
 							<MenuItem icon={<IoPersonSharp />} onClick={() => router.push('/profile')}>Profile</MenuItem>
-							<MenuItem
+							{/* <MenuItem
 								icon={<IoLockOpen />}
 								onClick={() => disconnectWallet()}
 							>
 								Disconnect wallet
-							</MenuItem>
+							</MenuItem> */}
 						</MenuList>
 				</Menu>
 			</>
@@ -172,7 +173,7 @@ export default function Layout() {
 				</Flex>
 				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
 					<NextLink href='/'>
-						Logo
+						<Logo />
 					</NextLink>
 				<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
 						<DesktopNav />
@@ -213,7 +214,7 @@ const DesktopNav = () => {
 				<Box key={navItem.label}>
 					<Popover trigger={'hover'} placement={'bottom-start'}>
 						<PopoverTrigger>
-							{/* <NextLink href={navItem.href ?? '#'} passHref> */}
+							<NextLink href={navItem.href ?? '#'} passHref>
 								<Link
 									p={2}
 									fontSize={'sm'}
@@ -226,7 +227,7 @@ const DesktopNav = () => {
 								>
 									{navItem.label}
 								</Link>
-							{/* </NextLink> */}
+							</NextLink>
 						</PopoverTrigger>
 
 						{navItem.children && (

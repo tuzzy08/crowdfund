@@ -10,7 +10,7 @@ import {
 import { FaFacebook, FaInstagram, FaTwitter } from 'react-icons/fa';
 import { ReactNode } from 'react';
 
-const Logo = (props: any) => {
+export const Logo = (props: any) => {
 	return (
 		<svg
 			height={32}
@@ -81,7 +81,7 @@ export default function SmallWithLogoLeft() {
 				align={{ base: 'center', md: 'center' }}
 			>
 				<Logo />
-				<Text>© 2022 Crowdfund. All rights reserved</Text>
+				<Text>© {new Date().getFullYear()} Crowdfund. All rights reserved</Text>
 				<Stack direction={'row'} spacing={6}>
 					<SocialButton label={'Twitter'} href={'#'}>
 						<FaTwitter />
