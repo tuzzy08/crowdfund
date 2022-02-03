@@ -115,7 +115,7 @@ export default function Home() {
 				<Divider />
 			</Box>
 			<Box
-				h={'400px'}
+				h={'350px'}
 				bgImage={'/wave.svg'}
 				bgRepeat={'repeat-x'}
 				bgSize={'cover'}

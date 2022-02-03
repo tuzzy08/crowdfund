@@ -63,13 +63,14 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     // Transfer CROWD Token to an address
     function transferToken(address receiver, uint amount) private nonReentrant onlyOwner returns(bool) {
         // Check if contract has enough tokens for transfer
-        require(address(_crowdToken).balance >= amount, 'Not enough tokens for this transfer');
+        require(_crowdToken.balanceOf(address(this)) >= amount, 'Not enough tokens for this transfer');
         // Check for integer overflow
         require(userTokenBalance[receiver] + amount >= userTokenBalance[receiver]);
         // Update user token balance
         userTokenBalance[receiver] += amount;
         // Transfer token to user
-        _crowdToken.transfer(receiver, amount);
+        (bool sent) = _crowdToken.transfer(receiver, amount);
+        require(sent, 'Failed to transfer token');
         // Emit transfer event
         emit TokenTransferred(receiver, amount, userTokenBalance[receiver]);
         return true;
