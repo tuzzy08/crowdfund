@@ -35,9 +35,9 @@ export default function Home() {
 		// const goal = ethers.utils.formatEther(value);
 		// console.log(goal)
 		const data = {
-			title: 'CrossHelmet - the smart motorcycle helmet',
+			title: 'HEAVYS | Headphones Engineered For Heavy Metal',
 			description:
-				'Next generation motorcycle helmet with sound control & 360° visibility t0 transform your riding experience.',
+				'Metal-loud headphones with 2 frequency ranges and 4 drivers so you can listen to metal the way it’s meant to be heard.',
 			goal: 250,
 		};
 		return await ContractUtils.createProject(data);
@@ -95,7 +95,7 @@ export default function Home() {
 					</Heading>
 				</VStack>
 			</Box>
-			<Box py={5} mt={10} ml={3} mr={3} minH='300px' mb={50}>
+			<Box py={5} mt={10} ml={3} mr={3} minH='300px'>
 				<Box maxW={'7xl'} ml='auto' mr='auto'>
 					<Text fontSize='2xl' color={'gray.500'} align='left'>
 						Latest projects
@@ -113,6 +113,14 @@ export default function Home() {
 					</Flex>
 				</Box>
 				<Divider />
+			</Box>
+			<Box
+				h={'400px'}
+				bgImage={'/wave.svg'}
+				bgRepeat={'repeat-x'}
+				bgSize={'cover'}
+				bgPosition={'center center'}
+			>
 			</Box>
 			<Footer />
 		</Box>
