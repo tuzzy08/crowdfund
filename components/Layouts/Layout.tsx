@@ -15,13 +15,8 @@ import {
 	MenuButton,
 	MenuList,
 	MenuItem,
-	Popover,
-	PopoverTrigger,
-	PopoverContent,
-	Tag,
 	useColorMode,
 	useColorModeValue,
-	useBreakpointValue,
 	useDisclosure,
 } from '@chakra-ui/react';
 import {
@@ -172,9 +167,9 @@ export default function Layout() {
 					/>
 				</Flex>
 				<Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-					<NextLink href='/'>
+					{/* <NextLink href='/' passHref> */}
 						<Logo />
-					</NextLink>
+					{/* </NextLink> */}
 				<Flex display={{ base: 'none', md: 'flex' }} ml={10}>
 						<DesktopNav />
 					</Flex>
@@ -212,10 +207,9 @@ const DesktopNav = () => {
 		<Stack direction={'row'} spacing={4}>
 			{NAV_ITEMS.map((navItem) => (
 				<Box key={navItem.label}>
-					<Popover trigger={'hover'} placement={'bottom-start'}>
-						<PopoverTrigger>
 							<NextLink href={navItem.href ?? '#'} passHref>
 								<Link
+									href={navItem.href ?? '#'}
 									p={2}
 									fontSize={'sm'}
 									fontWeight={500}
@@ -228,25 +222,6 @@ const DesktopNav = () => {
 									{navItem.label}
 								</Link>
 							</NextLink>
-						</PopoverTrigger>
-
-						{navItem.children && (
-							<PopoverContent
-								border={0}
-								boxShadow={'xl'}
-								bg={popoverContentBgColor}
-								p={4}
-								rounded={'xl'}
-								minW={'sm'}
-							>
-								<Stack>
-									{navItem.children.map((child) => (
-										<DesktopSubNav key={child.label} {...child} />
-									))}
-								</Stack>
-							</PopoverContent>
-						)}
-					</Popover>
 				</Box>
 			))}
 		</Stack>

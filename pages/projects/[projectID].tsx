@@ -62,9 +62,15 @@ export default function ProjectDetails(props: any) {
 			<Layout />
 			<VStack mt={10} spacing={3}>
 				<VStack padding={4}>
-					<Heading as='h1' fontSize='3xl'>
-						{project.title}
-					</Heading>
+					<HStack spacing={20}>
+						<Button alignSelf={'start'} bgColor={'red.400'} onClick={() => router.push('/')}>
+							{' '}
+							Back
+						</Button>
+						<Heading as='h1' fontSize='3xl'>
+							{project.title}
+						</Heading>
+					</HStack>
 					<Text fontWeight={200} fontSize='22px' pb={5}>
 						{project.description}
 					</Text>
@@ -107,9 +113,12 @@ export default function ProjectDetails(props: any) {
 						</Flex>
 						<Button
 							width={'90%'}
+							bgColor={'red.400'}
 							onClick={() => {
 								ContractUtils.fundProject(id);
-								router.push('/');
+								setTimeout(() => {
+									router.push('/');
+								}, 10000);
 							}}
 						>
 							Fund project
@@ -173,6 +182,13 @@ export default function ProjectDetails(props: any) {
 				</Tabs>
 				<Divider />
 			</VStack>
+			<Box
+				h={'350px'}
+				bgImage={'/wave.svg'}
+				bgRepeat={'repeat-x'}
+				bgSize={'cover'}
+				bgPosition={'center center'}
+			></Box>
 			<Footer />
 		</Box>
 	);

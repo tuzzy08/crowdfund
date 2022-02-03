@@ -81,6 +81,13 @@ export default function Profile() {
 					</Box>
 				</VStack>
 			</Container>
+			<Box
+				h={'350px'}
+				bgImage={'/wave.svg'}
+				bgRepeat={'repeat-x'}
+				bgSize={'cover'}
+				bgPosition={'center center'}
+			></Box>
 			<Footer />
 		</Box>
 	);

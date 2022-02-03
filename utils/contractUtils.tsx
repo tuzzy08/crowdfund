@@ -76,7 +76,6 @@ const fundProject = async function fundProject(projectID: number) {
     const transaction = await contract.fundProject(projectID, {
       value: '500000000000000000',
 		});
-		console.log('*')
     // Wait for transaction to be mined
     await transaction.wait();
   } catch (error) {
