@@ -1,6 +1,6 @@
 module.exports = {
 	env: {
-		contract: '0xC5CEFb5870C1E50c3281D49B8CC0DFCb01dC525e',
+		contract: '0x8dfB84319B055aeC5ff1E26c62E1ecE674f11bD3',
 	},
 	images: {
 		domains: ['images.unsplash.com'],

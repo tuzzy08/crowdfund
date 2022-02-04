@@ -5,14 +5,14 @@ pragma solidity >=0.7.0 <0.9.0;
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "./Token.sol";
+import "./CrowdToken.sol";
 
 contract Crowdfunding is Ownable, ReentrancyGuard  {
     using Counters for Counters.Counter;
     Counters.Counter private _projectId;
     Counters.Counter private _projectsCompleted;
-    Token _crowdToken;
-    uint _listingFee = 0.025 ether;
+    CrowdToken _crowdToken;
+    uint _listingFee = 1 ether;
 
     struct Project {
         uint projectID;
@@ -29,8 +29,6 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     mapping (address => uint256) userIDtoProjectID;
     // Mapping of project ID to project struct(i.e project itself)
     mapping (uint256 => Project) projectIDtoProject;
-    // Mapping of addresses to id's indicating user crowd token balance
-    mapping (address => uint) userCrowdTokenBalance;
 
     event ProjectCreated (
         uint projectID,
@@ -56,35 +54,37 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     );
 
     constructor() payable {
-        _crowdToken = new Token();
+        _crowdToken = new CrowdToken();
     }
     // Get address of CROWD Token contract
     function getTokenContractAddress() public view returns(address tokenContract) {
         return address(_crowdToken);
     }
     // Transfer CROWD Token to an address
-    function transferToken(address receiver, uint amount) private nonReentrant onlyOwner returns(bool) {
+    function transferToken(address receiver, uint amount) private nonReentrant returns(bool) {
         // Check if contract has enough tokens for transfer
         require(_crowdToken.balanceOf(address(this)) >= amount, 'Not enough tokens for this transfer');
         // Check for integer overflow
-        require(userCrowdTokenBalance[receiver] + amount >= userCrowdTokenBalance[receiver]);
-        // Update user token balance
-        userCrowdTokenBalance[receiver] += amount;
+        require(_crowdToken.balanceOf(address(receiver)) + amount >= _crowdToken.balanceOf(address(receiver)));
         // Transfer token to user
-        (bool sent) = _crowdToken.transfer(receiver, amount);
-        require(sent, 'Failed to transfer token');
+        _crowdToken.transfer(receiver, amount);
         // Emit transfer event
-        emit TokenTransferred(receiver, amount, userCrowdTokenBalance[receiver]);
+        emit TokenTransferred(receiver, amount, _crowdToken.balanceOf(address(receiver)));
         return true;
     }
 
     // Return user Crowd Token Balance
-    function getUserCrowdTokenBalance() external view returns(uint256 balance) {
-        return userCrowdTokenBalance[msg.sender];
+    function getUserCrowdTokenBalance() external view returns(uint256) {
+        return _crowdToken.balanceOf(msg.sender);
     }
 
     function getListingFee() public view returns(uint) {
         return _listingFee;
+    }
+
+    // Get contract crowd token balance
+    function getContractCrowdTokenBalance() public view returns(uint256) {
+        return _crowdToken.balanceOf(address(this));
     }
 
     // Create a new project

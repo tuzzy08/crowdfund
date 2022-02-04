@@ -1,7 +1,7 @@
 import { ethers } from 'ethers';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 import { Project } from '../components/cards/projectCard';
-const contractAddress = '0x8b1e36a2d8069Baee4256e17C10C6Cc03265949B';
+const contractAddress = '0x8dfB84319B055aeC5ff1E26c62E1ecE674f11bD3';
 
 declare let window: any;
 
@@ -125,42 +125,47 @@ try {
 
 // Function to fetch all projects
 async function fetchAllProjects(): Promise<Array<Project>> {
-try {
-	const { ethereum } = window;
-	if (!ethereum) {
-		console.log('Please install metamask');
+const { ethereum } = window;
+if (!ethereum) {
+	throw new Error('Please install metamask');
+}
+const provider = new ethers.providers.Web3Provider(ethereum);
+const contract = new ethers.Contract(
+	contractAddress,
+	Crowdfunding.abi,
+	provider
+);
+	const transaction = await contract.fetchAllProjects();
+	if (!transaction) {
+		console.log('No projects to return');
 		return [];
 	}
-	const provider = new ethers.providers.Web3Provider(ethereum);
-	const contract = new ethers.Contract(
-		contractAddress,
-		Crowdfunding.abi,
-		provider
-	);
-	const transaction = await contract.fetchAllProjects();
-	return transaction;
-} catch (error) {
-	throw error;
-}
+return transaction;
 }
 
 // Function to fetch user token balance
-async function getCrowdTokenBalance(): Promise<String> {
+async function getUserCrowdTokenBalance(): Promise<String> {
 	// Check if the browser has metamask or similar
 	const { ethereum } = window;
 	if (!ethereum) {
 		throw new Error('Please install Metamask');
 	}
-	const userAddress: string = await getConnectedWalletAddress();
 	const provider = new ethers.providers.Web3Provider(ethereum);
 	const contract = new ethers.Contract(
 		contractAddress,
 		Crowdfunding.abi,
 		provider
 	);
-	const transaction = await contract.getUserCrowdTokenBalance();
-	const value = ethers.BigNumber.from(transaction);
-
+	// Get connected wallet address
+	const userAddress = await getConnectedWalletAddress();
+	// NOTE: Specify a caller so that the right balance can be returned
+	// otherwise it returns a null address due to how Alchemy works 
+	// with Message Calls
+	const transaction = await contract.getUserCrowdTokenBalance({
+		from: userAddress,
+	});
+	// Format the token figure
+	const value = ethers.utils.formatEther(ethers.BigNumber.from(transaction));	
 	return value.toString();
 }
 
@@ -174,5 +179,5 @@ export const ContractUtils = {
 	getTokenContractAddress,
 	fetchProject,
 	fetchAllProjects,
-	getCrowdTokenBalance,
+	getUserCrowdTokenBalance,
 };

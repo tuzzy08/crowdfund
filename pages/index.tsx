@@ -13,6 +13,7 @@ import Layout from '../components/Layouts/Layout';
 import ProjectCard from '../components/cards/projectCard';
 import Hero from '../components/Hero/Hero';
 import { urls } from '../utils/urls';
+import { demo } from '../utils/sampleData';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 import { ContractUtils } from '../utils/contractUtils';
 import { Project } from '../components/cards/projectCard';
@@ -24,23 +25,17 @@ interface IBlogTags {
 	tags: Array<string>;
 	marginTop?: SpaceProps['marginTop'];
 }
-const contractAddress = '0x8b1e36a2d8069Baee4256e17C10C6Cc03265949B';
+const contractAddress = '0x8dfB84319B055aeC5ff1E26c62E1ecE674f11bD3';
 
 export default function Home() {
 	let defaultState: Array<Project> = [];
 	const [projects, setProjects] = useState(defaultState);
 	// create some sample projects
 	const sampleProject = async () => {
-		// const value = ethers.BigNumber.from(5e18);
-		// const goal = ethers.utils.formatEther(value);
-		// console.log(goal)
-		const data = {
-			title: 'CrossHelmet - the smart motorcycle helmet',
-			description:
-				'The CrossHelmet is a next generation motorcycle helmet with sound control & 360° visibility that will transform your riding experience.',
-			goal: 250,
-		};
-		return await ContractUtils.createProject(data);
+		demo.map(async (data) => {
+			await ContractUtils.createProject(data);
+		})
+		
 	};
 	// Function to setup event listener
 	function setupListener() {
@@ -56,12 +51,20 @@ export default function Home() {
 			provider
 		);
 		contract.on('ProjectCreated', () => {
-			ContractUtils.fetchAllProjects();
+			const getProjects = async () => {
+				const allProjects = await ContractUtils.fetchAllProjects();
+				setProjects(allProjects);
+			};
+			getProjects();
 		});
 
-		contract.on('ProjectFunded', () => {
-			ContractUtils.fetchAllProjects();
-		});
+		// contract.on('ProjectFunded', () => {
+		// 	const getProjects = async () => {
+		// 		const allProjects = await ContractUtils.fetchAllProjects();
+		// 		setProjects(allProjects);
+		// 	};
+		// 	getProjects();
+		// });
 	}
 	useEffect(() => {
 		ContractUtils.getTokenContractAddress();

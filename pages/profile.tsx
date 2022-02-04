@@ -17,7 +17,7 @@ export default function Profile() {
 
   useEffect(() => {
     const getBalance = async function getBalance() {
-      const balance = await ContractUtils.getCrowdTokenBalance();
+      const balance = await ContractUtils.getUserCrowdTokenBalance();
       settokenBlance(balance);
     }
     try {

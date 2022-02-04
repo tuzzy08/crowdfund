@@ -86,6 +86,7 @@ export default function ProjectDetails(props: any) {
 							src={`${urls[parseInt(id) - 1]}`}
 							alt={`${project.title}`}
 							maxW={{ base: '100%', md: '820px' }}
+							loading='lazy'
 						/>
 					</Flex>
 					<VStack w={'420px'} h={'520.500px'} spacing={8} pl={3} pr={3}>
@@ -115,10 +116,7 @@ export default function ProjectDetails(props: any) {
 							width={'90%'}
 							bgColor={'red.400'}
 							onClick={() => {
-								ContractUtils.fundProject(id);
-								setTimeout(() => {
-									router.push('/');
-								}, 10000);
+								ContractUtils.fundProject(id);								
 							}}
 						>
 							Fund project
