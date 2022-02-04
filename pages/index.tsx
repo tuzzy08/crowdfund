@@ -83,7 +83,7 @@ export default function Home() {
 	}, []);
 
 	useEffect(() => {
-		sampleProject();
+		// sampleProject();
 	}, []);
 
 	return (
