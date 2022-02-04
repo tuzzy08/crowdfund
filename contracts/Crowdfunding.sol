@@ -12,7 +12,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     Counters.Counter private _projectId;
     Counters.Counter private _projectsCompleted;
     CrowdToken _crowdToken;
-    uint _listingFee = 1 ether;
+    uint _listingFee = 1 wei;
 
     struct Project {
         uint projectID;
@@ -60,7 +60,7 @@ contract Crowdfunding is Ownable, ReentrancyGuard  {
     function getTokenContractAddress() public view returns(address tokenContract) {
         return address(_crowdToken);
     }
-    // Transfer CROWD Token to an address
+    // Transfer CROWD Token to a specified address
     function transferToken(address receiver, uint amount) private nonReentrant returns(bool) {
         // Check if contract has enough tokens for transfer
         require(_crowdToken.balanceOf(address(this)) >= amount, 'Not enough tokens for this transfer');
