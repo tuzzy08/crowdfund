@@ -25,7 +25,7 @@ interface IBlogTags {
 	tags: Array<string>;
 	marginTop?: SpaceProps['marginTop'];
 }
-const contractAddress = '0x8dfB84319B055aeC5ff1E26c62E1ecE674f11bD3';
+const contractAddress = '0xfA97A1176812F34e831FA47808615bC90Bbd8180';
 
 export default function Home() {
 	let defaultState: Array<Project> = [];
