@@ -24,7 +24,8 @@
     "**/*.ts",
     "**/*.tsx",
     "./scripts",
-    "./test"
+    "./test",
+    "./typechain"
   ],
   "files": ["./hardhat.config.ts"],
   "exclude": [
