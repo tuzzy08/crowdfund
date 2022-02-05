@@ -45,7 +45,7 @@ export default function Layout() {
     return (
 			<Button
 				onClick={connectWallet}
-        display={{ base: 'none', md: 'inline-flex' }}
+        display={{ md: 'inline-flex' }}
 				fontSize={'sm'}
 				fontWeight={600}
 				color={'white'}
@@ -62,7 +62,7 @@ export default function Layout() {
 	function ConnectedWalletPanel() {
 		const router = useRouter();
 		return (
-			<>
+			<Box mr={{ base: 2}}>
 				<Menu>
 						<MenuButton
 							isActive={isOpen}
@@ -81,7 +81,7 @@ export default function Layout() {
 							</MenuItem> */}
 						</MenuList>
 				</Menu>
-			</>
+			</Box>
 		);
 	}
   /**
@@ -177,6 +177,7 @@ export default function Layout() {
 
 				<Flex
 					flex={{ base: 1, md: 0 }}
+					ml={{ base: 3 }}
 					// justify={'flex-end'}
 					justifyContent={'space-between'}
 				>
@@ -225,43 +226,6 @@ const DesktopNav = () => {
 				</Box>
 			))}
 		</Stack>
-	);
-};
-
-const DesktopSubNav = ({ label, href, subLabel }: NavItem) => {
-	return (
-		<Link
-			href={href}
-			role={'group'}
-			display={'block'}
-			p={2}
-			rounded={'md'}
-			_hover={{ bg: useColorModeValue('pink.50', 'gray.900') }}
-		>
-			<Stack direction={'row'} align={'center'}>
-				<Box>
-					<Text
-						transition={'all .3s ease'}
-						_groupHover={{ color: 'pink.400' }}
-						fontWeight={500}
-					>
-						{label}
-					</Text>
-					<Text fontSize={'sm'}>{subLabel}</Text>
-				</Box>
-				<Flex
-					transition={'all .3s ease'}
-					transform={'translateX(-10px)'}
-					opacity={0}
-					_groupHover={{ opacity: '100%', transform: 'translateX(0)' }}
-					justify={'flex-end'}
-					align={'center'}
-					flex={1}
-				>
-					<Icon color={'pink.400'} w={5} h={5} as={ChevronRightIcon} />
-				</Flex>
-			</Stack>
-		</Link>
 	);
 };
 
