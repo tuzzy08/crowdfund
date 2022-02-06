@@ -1,4 +1,6 @@
 import { ethers } from 'ethers';
+import Web3Modal from 'web3modal';
+import WalletConnectProvider from '@walletconnect/web3-provider';
 import Crowdfunding from '../artifacts/contracts/Crowdfunding.sol/Crowdfunding.json';
 import { Project } from '../components/cards/projectCard';
 const contractAddress = '0x4715ba5A177ef0E2676DbB10Ed35Ff1eFaaBd957';
@@ -9,6 +11,34 @@ interface ProjectParams {
 	title: string;
 	description: string;
 	goal: number;
+}
+
+export const providerOptions = {
+	walletconnect: {
+		package: WalletConnectProvider, // required
+		options: {
+			infuraId: '27e484dcd9e3efcfd25a83a78777cdf1', // required
+		},
+	},
+};
+// Get contract instance from ABI
+export async function getContractInstance() {	
+	const { ethereum } = window;
+	let provider;
+	if (!ethereum) {
+		const web3Modal = new Web3Modal({
+			providerOptions, // required
+		});
+		const instance = await web3Modal.connect();
+		provider = new ethers.providers.Web3Provider(instance);
+	}
+	provider = new ethers.providers.Web3Provider(ethereum);
+	const contract = new ethers.Contract(
+		contractAddress,
+		Crowdfunding.abi,
+		provider
+	);
+	return contract;
 }
 // Function to create new project
 async function createProject(options: ProjectParams) {
@@ -85,56 +115,29 @@ const fundProject = async function fundProject(projectID: number) {
   
 // Function to retrieve token contract address
 async function getTokenContractAddress() {
-		const { ethereum } = window;
-		if (ethereum) {
-			const provider = new ethers.providers.Web3Provider(ethereum);
-			const contract = new ethers.Contract(
-				contractAddress,
-				Crowdfunding.abi,
-				provider
-			);
-			try {
-				const tokenContractAdrdress = await contract.getTokenContractAddress();
-				console.log(tokenContractAdrdress);
+	try {
+		const contract = await getContractInstance();
+		const tokenContractAdrdress = await contract.getTokenContractAddress();
+		console.log(tokenContractAdrdress);
 			} catch (error) {
 				console.log(error);
 			}
-		}
 };
 
 // Function to fetch individual projects
 async function fetchProject(id: string): Promise<Project | any> {
-try {
-	// Check if the browser has metamask or similar
-	const { ethereum } = window;
-	if (!ethereum) {
-		throw new Error('Please install Metamask');
-	}
-	const provider = new ethers.providers.Web3Provider(ethereum);
-	const contract = new ethers.Contract(
-		contractAddress,
-		Crowdfunding.abi,
-		provider
-	);
-	const transaction = await contract.fetchProjectByID(id);
-	return transaction;
+	try {
+		const contract = await getContractInstance();	
+		const transaction = await contract.fetchProjectByID(id);
+		return transaction;
 } catch (error) {
-	throw error;
+		console.log(error);
 }
 }
 
 // Function to fetch all projects
 async function fetchAllProjects(): Promise<Array<Project>> {
-const { ethereum } = window;
-if (!ethereum) {
-	throw new Error('Please install metamask');
-}
-const provider = new ethers.providers.Web3Provider(ethereum);
-const contract = new ethers.Contract(
-	contractAddress,
-	Crowdfunding.abi,
-	provider
-);
+const contract = await getContractInstance();
 	const transaction = await contract.fetchAllProjects();
 	if (!transaction) {
 		console.log('No projects to return');
@@ -146,16 +149,7 @@ return transaction;
 // Function to fetch user token balance
 async function getUserCrowdTokenBalance(): Promise<String> {
 	// Check if the browser has metamask or similar
-	const { ethereum } = window;
-	if (!ethereum) {
-		throw new Error('Please install Metamask');
-	}
-	const provider = new ethers.providers.Web3Provider(ethereum);
-	const contract = new ethers.Contract(
-		contractAddress,
-		Crowdfunding.abi,
-		provider
-	);
+	const contract = await getContractInstance();
 	// Get connected wallet address
 	const userAddress = await getConnectedWalletAddress();
 	// NOTE: Specify a caller so that the right balance can be returned

@@ -31,12 +31,11 @@ export default function Home() {
 	let defaultState: Array<Project> = [];
 	const [projects, setProjects] = useState(defaultState);
 	// create some sample projects
-	const sampleProject = async () => {
-		demo.map(async (data) => {
-			await ContractUtils.createProject(data);
-		})
-		
-	};
+	// const sampleProject = async () => {
+	// 	demo.map(async (data) => {
+	// 		await ContractUtils.createProject(data);
+	// 	})		
+	// };
 	// Function to setup event listener
 	function setupListener() {
 		const { ethereum } = window;

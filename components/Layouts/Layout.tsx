@@ -23,15 +23,17 @@ import {
 	HamburgerIcon,
 	CloseIcon,
 	ChevronDownIcon,
-	ChevronRightIcon,
 	MoonIcon,
 	SunIcon,
 } from '@chakra-ui/icons';
 import {
 	IoCaretDownOutline,
-	IoLockOpen,
 	IoPersonSharp,
 } from 'react-icons/io5';
+import Web3Modal from 'web3modal';
+import WalletConnectProvider from '@walletconnect/web3-provider';
+import { ethers } from 'ethers';
+import { providerOptions } from '../../utils/contractUtils';
 import { formatAddress } from '../../utils/formatAddress';
 import { Logo } from '../Footer/Footer';
 declare let window: any;
@@ -110,23 +112,37 @@ export default function Layout() {
   /**
    * Connect a wallet
    */
-  const connectWallet = async () => {
-    try {
-      const { ethereum } = window;
-      if (!ethereum) {
-        alert('Please install Metamask');
-        return;
-      }
-      // Request user to authorize wallet
-      const accounts = await ethereum.request({ method: 'eth_requestAccounts' });
-      if (accounts.length !== 0) {
-        const account = formatAddress(accounts[0]);
-        setconnectedAccount(account);
-        console.log('connected account', account);
-      }
-    } catch (error) {
-      console.log(error);
-    }
+	const connectWallet = async () => {
+		const web3Modal = new Web3Modal({
+			providerOptions, // required
+		});
+		const instance = await web3Modal.connect();
+		const provider = new ethers.providers.Web3Provider(instance);
+		// Request user to authorize wallet
+		const accounts = await provider.send('eth_requestAccounts', []);
+		if (accounts.length !== 0) {
+			const account = formatAddress(accounts[0]);
+			setconnectedAccount(account);
+			console.log('connected account', account);
+		}
+		// try {
+		// 	const { ethereum } = window;
+		// 	if (!ethereum) {
+		// 		alert('Please install Metamask');
+		// 		return;
+		// 	}
+		// 	// Request user to authorize wallet
+		// 	const accounts = await ethereum.request({
+		// 		method: 'eth_requestAccounts',
+		// 	});
+		// 	if (accounts.length !== 0) {
+		// 		const account = formatAddress(accounts[0]);
+		// 		setconnectedAccount(account);
+		// 		console.log('connected account', account);
+		// 	}
+		// } catch (error) {
+		// 	console.log(error);
+		// }
 	}
 	/**
 	 * Disconnect function
